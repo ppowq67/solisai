@@ -8751,6 +8751,150 @@
 }
 .sub-emoji-switch.is-on::after{transform:translateX(16px);}
 .sub-preset-sub{display:none;}
+.sub-want-more{
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    width:100%;margin:2px 0 0;padding:10px 12px;
+    border:0;border-radius:12px;cursor:var(--solis-preview-cursor-hand);
+    background:transparent;
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:12px;font-weight:700;letter-spacing:.01em;
+    color:rgba(50,38,28,.55);
+    transition:background .14s ease,color .14s ease,box-shadow .14s ease;
+}
+.sub-want-more:hover,
+.sub-want-more.is-on{
+    color:#c2410c;
+    background:linear-gradient(145deg,rgba(255,237,213,.85) 0%,rgba(254,215,170,.45) 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 0 0 1px rgba(249,115,22,.18);
+}
+.sub-want-more-chev{
+    font-size:11px;font-weight:800;opacity:.7;
+    transition:transform .16s ease;
+}
+.sub-want-more.is-on .sub-want-more-chev{transform:translateX(2px);}
+.sub-market-soon{
+    margin:2px 0 4px;padding:12px 14px;border-radius:14px;
+    background:linear-gradient(145deg,rgba(255,247,237,.95),rgba(255,237,213,.55));
+    border:1px solid rgba(249,115,22,.2);
+    font-family:'Plus Jakarta Sans',sans-serif;
+}
+.sub-market-soon-kicker{
+    font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+    color:#c2410c;margin-bottom:4px;
+}
+.sub-market-soon-title{
+    font-size:14px;font-weight:800;color:#32261c;margin:0 0 4px;letter-spacing:-.01em;
+}
+.sub-market-soon-copy{
+    font-size:12px;font-weight:600;line-height:1.35;color:rgba(50,38,28,.58);margin:0;
+}
+.sub-acard.is-soon{
+    opacity:.72;cursor:default;position:relative;
+}
+.sub-acard.is-soon:hover{transform:none;box-shadow:none;}
+.sub-acard.is-soon .sub-aprev{filter:grayscale(.15);opacity:.85;}
+.sub-soon-badge{
+    position:absolute;top:8px;right:8px;z-index:2;
+    padding:3px 7px;border-radius:999px;
+    font-size:8px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    color:#9a3412;background:rgba(255,237,213,.95);
+    border:1px solid rgba(249,115,22,.35);
+    box-shadow:0 1px 4px rgba(120,90,60,.1);
+    pointer-events:none;
+}
+.sub-market-empty-recent{
+    padding:10px 6px 4px;font-size:11px;font-weight:600;
+    color:rgba(50,38,28,.42);font-family:'Plus Jakarta Sans',sans-serif;
+}
+
+.sub-text-block.forge-live{
+    --cap-fill:#fff;--cap-highlight:#ffeb00;--cap-highlight-2:#00ff4c;
+    --cap-stroke:.06em;--cap-stroke-c:#000;--cap-tracking:-.02em;
+    --cap-wrap:transparent;--cap-wrap-fg:#fff;
+    font-weight:800;letter-spacing:var(--cap-tracking);line-height:1.12;
+    text-align:center;color:var(--cap-fill);
+}
+.sub-text-block.forge-live .forge-line{
+    display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+    column-gap:.28em;row-gap:.06em;max-width:92%;margin-inline:auto;
+}
+.sub-text-block.forge-live[data-wrap="pill"] .forge-line,
+.sub-text-block.forge-live[data-wrap="box"] .forge-line,
+.sub-text-block.forge-live[data-wrap="sticker"] .forge-line{
+    background:var(--cap-wrap);color:var(--cap-wrap-fg);padding:.2em .55em;
+}
+.sub-text-block.forge-live[data-wrap="pill"] .forge-line{border-radius:999px;}
+.sub-text-block.forge-live[data-wrap="box"] .forge-line{border-radius:.42em;}
+.sub-text-block.forge-live[data-wrap="sticker"] .forge-line{border-radius:.18em;transform:rotate(-1.4deg);}
+.sub-text-block.forge-live .forge-word{
+    display:inline-block;position:relative;transform-origin:center;
+    -webkit-text-stroke:var(--cap-stroke) var(--cap-stroke-c);paint-order:stroke fill;
+    transition:transform .14s cubic-bezier(.22,1,.36,1),color .12s ease,opacity .16s ease;
+}
+.sub-text-block.forge-live[data-stroke="0"] .forge-word{-webkit-text-stroke:0;}
+.sub-text-block.forge-live[data-shadow="sm"] .forge-word{text-shadow:0 .08em .16em rgba(0,0,0,.45);}
+.sub-text-block.forge-live[data-shadow="md"] .forge-word{text-shadow:0 .12em .22em rgba(0,0,0,.55);}
+.sub-text-block.forge-live[data-shadow="lg"] .forge-word{text-shadow:.04em .08em 0 rgba(0,0,0,.85),0 .16em .28em rgba(0,0,0,.5);}
+.sub-text-block.forge-live .forge-word.is-active{color:var(--cap-highlight);transform:scale(1.1);z-index:1;}
+.sub-text-block.forge-live[data-active="box"] .forge-word.is-active{
+    color:#111;background:var(--cap-highlight);border-radius:.16em;padding:.02em .14em;
+    -webkit-text-stroke:0;text-shadow:none;
+}
+.sub-text-block.forge-live[data-active="italic"] .forge-word.is-active{font-style:italic;}
+.sub-text-block.forge-live[data-active="underline"] .forge-word.is-active{text-decoration:underline;text-underline-offset:.08em;}
+.sub-text-block.forge-live[data-active="marker"] .forge-word.is-active{
+    color:#111;-webkit-text-stroke:0;text-shadow:none;
+    background-image:linear-gradient(#ffe14d,#ffe14d);background-repeat:no-repeat;
+    background-position:0 68%;background-size:100% .62em;
+}
+.sub-text-block.forge-live[data-active="spotlight"] .forge-word{opacity:.38;transform:scale(.92);filter:blur(.4px);}
+.sub-text-block.forge-live[data-active="spotlight"] .forge-word.is-active{
+    opacity:1;transform:scale(1.18);filter:none;color:var(--cap-fill);
+}
+.sub-text-block.forge-live[data-active="none"] .forge-word.is-active{transform:none;color:inherit;}
+.sub-text-block.forge-live[data-anim="pop"] .forge-line{animation:forge-pop .22s cubic-bezier(.22,1,.36,1) both;}
+.sub-text-block.forge-live[data-anim="bounce"] .forge-line{animation:forge-bounce .42s cubic-bezier(.34,1.36,.64,1) both;}
+.sub-text-block.forge-live[data-anim="elastic"] .forge-line{animation:forge-elastic .52s cubic-bezier(.34,1.56,.64,1) both;}
+.sub-text-block.forge-live[data-anim="shake"] .forge-line{animation:forge-slam .28s cubic-bezier(.22,1,.36,1) both;}
+.sub-text-block.forge-live[data-anim="fade"] .forge-line{animation:forge-fade .24s cubic-bezier(.22,1,.36,1) both;}
+.sub-text-block.forge-live[data-anim="slide"] .forge-line{animation:forge-slide .24s cubic-bezier(.22,1,.36,1) both;}
+@keyframes forge-pop{from{opacity:0;transform:scale(.86)}60%{transform:scale(1.06)}to{opacity:1;transform:scale(1)}}
+@keyframes forge-bounce{from{opacity:0;transform:translateY(.55em) scale(.9)}58%{transform:translateY(-.12em) scale(1.08)}to{opacity:1;transform:none}}
+@keyframes forge-elastic{from{opacity:0;transform:scale(.4)}55%{transform:scale(1.18)}75%{transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes forge-slam{from{opacity:0;transform:scale(1.35) rotate(-2deg)}to{opacity:1;transform:none}}
+@keyframes forge-fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes forge-slide{from{opacity:0;transform:translateX(-.4em) skewX(-6deg)}to{opacity:1;transform:none}}
+
+.sub-anim-more-dd{
+    width:min(520px,calc(100vw - 16px));
+    padding:14px 16px;
+    max-height:min(72vh,560px);
+    overflow-y:auto;
+    overflow-x:hidden;
+    border-radius:18px;
+    display:flex !important;
+    flex-direction:column !important;
+    gap:12px;
+    background:linear-gradient(
+        145deg,
+        rgba(255,255,255,.96) 0%,
+        rgba(255,255,255,.9) 45%,
+        rgba(255,252,248,.88) 100%
+    );
+    border:1px solid rgba(255,255,255,.95);
+    border-bottom-color:rgba(200,185,170,.28);
+    border-right-color:rgba(200,185,170,.2);
+    box-shadow:
+        0 8px 28px rgba(120,90,60,.12),
+        0 2px 8px rgba(120,90,60,.06),
+        inset 0 1.5px 0 rgba(255,255,255,1),
+        inset 0 -1px 0 rgba(180,155,130,.08);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+}
+.sub-anim-more-dd::-webkit-scrollbar{width:3px;}
+.sub-anim-more-dd::-webkit-scrollbar-thumb{background:rgba(180,155,130,.35);border-radius:4px;}
+.sub-anim-more-groups{display:flex;flex-direction:column;gap:12px;width:100%;}
 .sub-anim-dd::-webkit-scrollbar{width:3px;}
 .sub-anim-dd::-webkit-scrollbar-thumb{background:rgba(180,155,130,.35);border-radius:4px;}
 .sub-anim-sec{
@@ -10269,7 +10413,13 @@
 
     function refitOpenAnimCards(){
         if(!ddAnim?.classList.contains('open')) return;
-        ddAnim.querySelectorAll('.sub-aprev').forEach((el)=>{
+        const nodes=[
+            ...ddAnim.querySelectorAll('.sub-aprev'),
+            ...(ddAnimMore?.classList.contains('open')
+                ? [...ddAnimMore.querySelectorAll('.sub-aprev')]
+                : []),
+        ];
+        nodes.forEach((el)=>{
             try{ fitCardSample(el); }catch(_){}
         });
     }
@@ -10761,6 +10911,43 @@
         }catch(_){}
         return ANIMS;
     }
+    function captionMoreAnims(){
+        try{
+            const list=window.SolisStylePack?.moreAnims?.();
+            if(Array.isArray(list)&&list.length) return list;
+        }catch(_){}
+        return [];
+    }
+    function captionSourceLabel(src){
+        try{
+            const bag=window.SolisStylePack?.sourceLabels?.()||{};
+            if(bag[src]) return bag[src];
+        }catch(_){}
+        const map={submagic:'Submagic',opusclip:'OpusClip',vizard:'Vizard',extra:'Viral'};
+        return map[src]||'More';
+    }
+    const RECENT_PRESETS_KEY='solis_caption_recent_presets';
+    const RECENT_PRESETS_MAX=6;
+    function readRecentPresets(){
+        try{
+            const raw=localStorage.getItem(RECENT_PRESETS_KEY);
+            const list=raw?JSON.parse(raw):[];
+            return Array.isArray(list)?list.map(x=>String(x||'').toLowerCase()).filter(Boolean):[];
+        }catch(_){ return []; }
+    }
+    function rememberRecentPreset(presetId){
+        const id=String(presetId||'').toLowerCase();
+        if(!id || isMarketComingSoon(id)) return;
+        const next=[id, ...readRecentPresets().filter(x=>x!==id)].slice(0, RECENT_PRESETS_MAX);
+        try{ localStorage.setItem(RECENT_PRESETS_KEY, JSON.stringify(next)); }catch(_){}
+    }
+    function isMarketComingSoon(presetId){
+        const id=String(presetId||'').toLowerCase();
+        if(!id) return false;
+        if(captionAnims().some(a=>String(a.id).toLowerCase()===id)) return false;
+        return captionMoreAnims().some(a=>String(a.id).toLowerCase()===id)
+            || !!(window.SolisStylePack?.preset?.(id)?.forge && id!=='spotlight');
+    }
     function captionPresets(){
         try{ return window.SolisStylePack?.presets?.()||{}; }catch(_){ return {}; }
     }
@@ -10771,14 +10958,57 @@
         }catch(_){}
         return type==='none'?'none':'none';
     }
+    function applyForgeLiveRecipe(host, pack){
+        if(!host||!pack) return;
+        host.classList.add('forge-live');
+        const stroke=Number(pack.stroke);
+        const shadow=String(pack.shadow||'none').toLowerCase();
+        let sh='none';
+        if(shadow==='sm'||shadow==='outline') sh='sm';
+        else if(shadow==='md'||shadow==='thick-outline') sh='md';
+        else if(shadow==='lg') sh='lg';
+        host.dataset.active=String(pack.active_mode||'color');
+        host.dataset.anim=String(pack.line_anim||'pop');
+        host.dataset.wrap=String(pack.wrap||'none');
+        host.dataset.shadow=sh;
+        host.dataset.stroke=(Number.isFinite(stroke)&&stroke<=0)?'0':'1';
+        host.dataset.case=String(pack.case_mode||'as-is');
+        host.style.setProperty('--cap-fill', pack.color||'#ffffff');
+        host.style.setProperty('--cap-highlight', pack.highlight||pack.color||'#ffeb00');
+        host.style.setProperty('--cap-highlight-2', pack.highlight2||pack.highlight||'#00ff4c');
+        host.style.setProperty('--cap-stroke', `${Math.max(0, Number.isFinite(stroke)?stroke:0.7)*0.085}em`);
+        host.style.setProperty('--cap-stroke-c', '#000000');
+        host.style.setProperty('--cap-tracking', '-0.02em');
+        host.style.setProperty('--cap-wrap', pack.wrap_fill||pack.fill||'transparent');
+        host.style.setProperty('--cap-wrap-fg', pack.wrap_color||pack.color||'#ffffff');
+        const cas=String(pack.case_mode||'as-is');
+        host.style.textTransform=cas==='upper'?'uppercase':(cas==='lower'?'lowercase':'none');
+        host.style.textShadow='none';
+        host.style.color=pack.wrap_color||pack.color||'#fff';
+    }
+    function clearForgeLiveRecipe(host){
+        if(!host) return;
+        host.classList.remove('forge-live');
+        ['active','anim','wrap','shadow','stroke','case'].forEach(k=>{
+            try{ delete host.dataset[k]; }catch(_){}
+        });
+        ['--cap-fill','--cap-highlight','--cap-highlight-2','--cap-stroke','--cap-stroke-c','--cap-tracking','--cap-wrap','--cap-wrap-fg'].forEach(v=>{
+            try{ host.style.removeProperty(v); }catch(_){}
+        });
+    }
     function applyCaptionPreset(presetId, block){
         const pack=window.SolisStylePack?.preset?.(presetId)
             || captionPresets()[presetId]
             || captionPresets()[String(presetId||'').toLowerCase()];
         if(!pack) return null;
         activeCaptionPresetId=String(presetId||pack.anim||'').toLowerCase();
+        if(isMarketComingSoon(activeCaptionPresetId)){
+            return null;
+        }
+        rememberRecentPreset(activeCaptionPresetId);
+        const engine=previewEngineForPreset(activeCaptionPresetId, pack, null);
         const host=block||active||animPinnedBlock;
-        curAnim=pack.anim;
+        curAnim=engine;
         curFont=pack.font;
         curShadow=pack.shadow||'none';
         curTextCol=pack.color||'#ffffff';
@@ -10786,7 +11016,7 @@
             curHighlightCol=pack.highlight;
             if(host){
                 host.dataset.subHighlight=pack.highlight;
-                const key=accentStorageKey(pack.anim);
+                const key=accentStorageKey(engine);
                 if(key) host.dataset[key]=pack.highlight;
             }
         }else{
@@ -10794,14 +11024,19 @@
             if(host) delete host.dataset.subHighlight;
         }
         if(host){
-            host.dataset.subAnim=pack.anim;
+            host.dataset.subAnim=engine;
             host.dataset.captionPreset=activeCaptionPresetId;
             host.dataset.wordsPerChunk=String(pack.words_per_chunk||3);
             host.style.fontFamily=fontStack(pack.font);
             host.style.fontWeight=fontWeightFor(pack.font);
             host.style.borderRadius='12px';
-            if(pack.anim==='beast') applyBeastDefaults(host);
-            else if(pack.anim==='popcolor'){
+            if(pack.forge || pack.anim==='forge' || pack.active_mode){
+                applyForgeLiveRecipe(host, pack);
+            }else{
+                clearForgeLiveRecipe(host);
+            }
+            if(engine==='beast' && !(pack.forge||pack.anim==='forge')) applyBeastDefaults(host);
+            else if(engine==='popcolor' && !(pack.forge||pack.anim==='forge')){
                 host.style.letterSpacing='.5px';
                 host.style.textTransform='uppercase';
                 host.style.fontWeight='900';
@@ -10813,7 +11048,7 @@
                     syncWordsPerChunkFromSize(host, contEl);
                 }catch(_){}
                 try{ document.fonts?.load?.("900 48px 'Montserrat'"); }catch(_){}
-            }else{
+            }else if(!(pack.forge||pack.anim==='forge')){
                 host.style.letterSpacing='-.015em';
                 host.style.textTransform='';
                 host.style.textShadow=curShadow!=='none'?shadowCss(curShadow):'none';
@@ -10831,7 +11066,18 @@
         if(a==='rectangle'||a==='bounce'||a==='box') return 'static';
         if(a==='impact') return 'karaoke';
         if(a==='pop color'||a==='hormozi') return 'popcolor';
+        if(a==='spotlight'||a==='forge'){
+            return a;
+        }
         return a||'static';
+    }
+    function previewEngineForPreset(presetId, pack, an){
+        const p=pack||captionPresets()[presetId]||window.SolisStylePack?.preset?.(presetId)||null;
+        const preview=String(p?.preview_anim||an?.preview_anim||'').toLowerCase();
+        if(preview) return normalizeSubtitleAnim(preview)==='forge' ? 'blur' : preview;
+        const anim=String(p?.anim||an?.anim||presetId||'').toLowerCase();
+        if(anim==='forge'||anim==='spotlight') return 'blur';
+        return normalizeSubtitleAnim(anim);
     }
     const TCOLS=['#ffffff','#FF6A3D','#facc15','#80DE4A','#3B82F6'];
     const BGCOLS=['#ffffff','#FF6A3D','#3b82f6'];
@@ -10874,7 +11120,7 @@
     const SH={none:'none'};
     Object.defineProperty(SH,'outline',{get(){ return shadowCss('outline'); },enumerable:true});
     Object.defineProperty(SH,'thick-outline',{get(){ return shadowCss('thick-outline'); },enumerable:true});
-    let pill,ddFont,ddColor,ddAnim,posBadge,guideH,guideV,halfLine;
+    let pill,ddFont,ddColor,ddAnim,ddAnimMore,posBadge,guideH,guideV,halfLine;
     let active=null,curAnim=null,animIvs=[],animFullIv=null,animFullRunner=null,animPreviewSavedText=null,animPreviewActiveId=null,animPreviewLeaveT=null,animPreviewSwapT=null,animLivePinned=false,animPinnedBlock=null,animPreviewPillFreeze=null,subPillPosFreeze=null,curFont='Montserrat',curShadow='none',curTextCol='#ffffff',curHighlightCol=null,bgCol=null,previewTextCol=null,previewHighlightCol=undefined,previewBgCol=undefined,previewShadow=null,shadowPreviewSaved=undefined,openDdBeforeDrag=null,colorTarget='text',spectrumHue=18;
     let pendingSubMem=null,subMemGhost=null,subMemActions=null,subMemCooldownUntil=0;
 
@@ -10934,6 +11180,10 @@
 
         ddAnim=document.createElement('div'); ddAnim.className='sub-dropdown sub-anim-dd'; ddAnim.id='subDdAnim';
         document.body.appendChild(ddAnim);
+        ddAnimMore=document.createElement('div');
+        ddAnimMore.className='sub-dropdown sub-anim-more-dd';
+        ddAnimMore.id='subDdAnimMore';
+        document.body.appendChild(ddAnimMore);
 
         posBadge=document.createElement('div'); posBadge.className='sub-posbadge'; posBadge.id='subPosBadge';
         document.body.appendChild(posBadge);
@@ -12544,6 +12794,32 @@
         container?.classList?.remove('k-running');
     }
 
+    function paintForgeChunk(container, words, activeIdx, live){
+        container.textContent='';
+        if(live) container.className='sub-text-inner sub-chunk-line forge-line';
+        else container.className='sub-aprev forge-line';
+        container.style.color='';
+        container.style.textShadow='none';
+        container.style.whiteSpace='normal';
+        container.style.lineHeight='1.12';
+        container.style.textAlign='center';
+        const list=(words&&words.length)?words.slice():['Subtitles'];
+        const spans=[];
+        list.forEach((w,i)=>{
+            const span=document.createElement('span');
+            span.className='forge-word'+(i===activeIdx?' is-active':'');
+            span.textContent=String(w||'');
+            container.appendChild(span);
+            spans.push(span);
+        });
+        return spans;
+    }
+    function paintForgeActive(spans, activeIdx){
+        (spans||[]).forEach((span,i)=>{
+            if(!span) return;
+            span.classList.toggle('is-active', i===activeIdx);
+        });
+    }
     function paintStaticChunk(container, words, live, block){
         container.textContent='';
         applyCaptionFont(container, live);
@@ -12675,6 +12951,10 @@
         }
 
         function paintStep(idx, animate){
+            if(block?.classList?.contains('forge-live')){
+                paintForgeActive(wordSpans, idx);
+                return;
+            }
             if(an.id==='sticker'){
                 paintStickerConnected(container, chunkWords, idx, {live, animate});
                 return;
@@ -12697,7 +12977,7 @@
             karaokeHold=0;
             swapping=false;
             clearChunkTimer();
-            container.classList.remove('k-line','k-running','sub-merged-fill','sub-chunk-out','sub-chunk-in','sticker-mode','sub-reaction-solo','sub-bounce-chunk','sub-beast-line','sub-static-line');
+            container.classList.remove('k-line','k-running','sub-merged-fill','sub-chunk-out','sub-chunk-in','sticker-mode','sub-reaction-solo','sub-bounce-chunk','sub-beast-line','sub-static-line','forge-line');
             try{
                 container.removeAttribute('style');
             }catch(_){
@@ -12715,6 +12995,18 @@
                     block.style.removeProperty('width');
                     block.style.minWidth='';
                 }
+            }
+
+            if(live && block?.classList?.contains('forge-live') && !isRx){
+                wordSpans=paintForgeChunk(container, words, 0, true);
+                try{
+                    const anim=block.dataset.anim||'pop';
+                    block.dataset.anim='';
+                    void block.offsetWidth;
+                    block.dataset.anim=anim;
+                }catch(_){}
+                if(popIn) bumpChunkIn(container);
+                return;
             }
 
             if(an.id==='karaoke' && !isRx){
@@ -13693,8 +13985,52 @@
         block._startOverlayEdit=startEdit;
     }
 
+    function resolveAnimMeta(animId){
+        const id=String(animId||'').toLowerCase();
+        if(!id) return null;
+        let an=captionAnims().find(a=>a.id===id);
+        if(an){
+            const pack=captionPresets()[id]||window.SolisStylePack?.preset?.(id);
+            if(pack?.forge || an.anim==='forge' || an.preview_anim){
+                return {
+                    ...an,
+                    id: previewEngineForPreset(id, pack, an),
+                    name: (pack&&pack.name)||an.name,
+                    fixedWpc: an.fixedWpc||pack?.words_per_chunk,
+                    _presetId: id,
+                };
+            }
+            return an;
+        }
+        an=captionMoreAnims().find(a=>a.id===id);
+        if(an){
+            const engine=previewEngineForPreset(an.id, captionPresets()[an.id], an);
+            return {
+                ...an,
+                id: engine,
+                name: an.name,
+                fixedWpc: an.fixedWpc,
+                _presetId: an.id,
+            };
+        }
+        const pack=captionPresets()[id]||window.SolisStylePack?.preset?.(id);
+        if(pack){
+            const engine=previewEngineForPreset(id, pack, null);
+            return {
+                id: engine,
+                name: pack.name||id,
+                fixedWpc: pack.words_per_chunk||null,
+                borderRadius: '12px',
+                _presetId: id,
+            };
+        }
+        const engines=['karaoke','popcolor','blur','static','fade','beast'];
+        if(engines.includes(id)) return { id, name: id, borderRadius: '12px' };
+        return null;
+    }
+
     function showAnimFullPreview(animId, previewOpts){
-        const an=captionAnims().find(a=>a.id===animId);
+        const an=resolveAnimMeta(animId);
         const block=previewOpts?.block||active||animPinnedBlock;
         if(!an||!block||isOverlayText(block))return;
 
@@ -14167,31 +14503,35 @@
         ddAnim.appendChild(head);
 
         function makeCard(an){
-            const pack=captionPresets()[an.id]||window.SolisStylePack?.preset?.(an.id)||null;
+            const presetId=String(an.id||'').toLowerCase();
+            const pack=captionPresets()[presetId]||window.SolisStylePack?.preset?.(presetId)||null;
+            const engineId=previewEngineForPreset(presetId, pack, an);
             const card=document.createElement('div');
             card.className='sub-acard';
-            card.dataset.aid=an.id;
-            if(curAnim===an.id) card.classList.add('on');
-            if(highlightId && an.id===highlightId) card.classList.add('sub-mem-pick');
+            card.dataset.aid=presetId;
+            if(activeCaptionPresetId===presetId || (!activeCaptionPresetId && curAnim===engineId && presetId===engineId)){
+                card.classList.add('on');
+            }
+            if(highlightId && presetId===highlightId) card.classList.add('sub-mem-pick');
             const prev=document.createElement('div'); prev.className='sub-aprev';
             const nm=document.createElement('div'); nm.className='sub-aname';
             nm.textContent=(pack&&pack.name)||an.name;
             card.appendChild(prev);
             card.appendChild(nm);
 
-            const cardFont=pack?.font||(an.id==='beast'?'Komika Axis':'Montserrat');
+            const cardFont=pack?.font||(engineId==='beast'?'Komika Axis':'Montserrat');
             const cardWpc=pack?.words_per_chunk||(an.fixedWpc||ANIM_SAMPLE_WPC);
             const sampleWords=subtitleLoopWords().slice(
                 0,
-                an.id==='beast' ? 8 : (an.id==='popcolor' ? 8 : Math.max(CARD_WPC_MAX, ANIM_SAMPLE_WPC*2))
+                engineId==='beast' ? 8 : (engineId==='popcolor' ? 8 : Math.max(CARD_WPC_MAX, ANIM_SAMPLE_WPC*2))
             );
 
             prev.style.fontFamily=fontStack(cardFont);
-            prev.style.fontWeight=an.id==='popcolor' ? '900' : fontWeightFor(cardFont);
-            if(an.id==='popcolor'||an.id==='beast'){
+            prev.style.fontWeight=engineId==='popcolor' ? '900' : fontWeightFor(cardFont);
+            if(engineId==='popcolor'||engineId==='beast'){
                 prev.style.textTransform='uppercase';
             }
-            if(an.id==='popcolor'){
+            if(engineId==='popcolor'){
                 try{ document.fonts?.load?.("900 48px 'Montserrat'"); }catch(_){}
                 prev.dataset.aid='popcolor';
                 prev.style.setProperty('--bounce-stroke', '2.5px');
@@ -14201,7 +14541,7 @@
                 prev.style.fontWeight='900';
             }
 
-            const runner=createAnimPreviewLoop(prev, an, {
+            const runner=createAnimPreviewLoop(prev, { ...an, id: engineId, name: an.name }, {
                 live:false,
                 card:true,
                 words: sampleWords,
@@ -14220,7 +14560,7 @@
                 softStopAnimPreview();
                 const offset=teachDemoOffset;
                 teachDemoOffset+=Math.max(2, cardWpc);
-                showAnimFullPreview(an.id, {
+                showAnimFullPreview(presetId, {
                     noMenu: !phone.classList.contains('selected'),
                     block: phone,
                     forceFreeRun: true,
@@ -14233,7 +14573,7 @@
             });
             card.addEventListener('mouseleave',(e)=>{
                 const to=e.relatedTarget;
-                if(to && ddAnim?.contains(to)) return;
+                if(to && (ddAnim?.contains(to) || ddAnimMore?.contains(to))) return;
                 scheduleStopAnimFullPreview();
             });
             card.addEventListener('click',(e)=>{
@@ -14249,15 +14589,15 @@
                     try{ select(phone); }catch(_){}
                 }
                 const memPending=!!(pendingSubMem || window.__solisPendingSubMem);
-                applyCaptionPreset(an.id, active||phone);
+                applyCaptionPreset(presetId, active||phone);
                 animLivePinned=true;
-                ddAnim.querySelectorAll('.sub-acard').forEach(c=>{
+                document.querySelectorAll('.sub-acard').forEach(c=>{
                     c.classList.remove('on');
                     c.classList.remove('sub-mem-pick');
                 });
                 card.classList.add('on');
                 softStopAnimPreview();
-                showAnimFullPreview(an.id, {
+                showAnimFullPreview(presetId, {
                     wordsPerChunk: pack?.words_per_chunk||an.fixedWpc||null,
                 });
                 try{ if(typeof window.collectSubtitleStyle==='function') window.collectSubtitleStyle(); }catch(_){}
@@ -14270,7 +14610,7 @@
                     try{
                         acceptSubtitleMemorySuggest({
                             fromPresetPick: true,
-                            pickedAnim: an.id,
+                            pickedAnim: presetId,
                         });
                     }catch(_){}
                 }
@@ -14283,10 +14623,167 @@
         captionAnims().forEach(an=>grid.appendChild(makeCard(an)));
         ddAnim.appendChild(grid);
 
+        const moreBtn=document.createElement('button');
+        moreBtn.type='button';
+        moreBtn.className='sub-want-more';
+        moreBtn.id='subWantMoreSubs';
+        moreBtn.innerHTML=`<span>Subtitle market</span><span class="sub-want-more-chev" aria-hidden="true">›</span>`;
+        if(ddAnimMore?.classList.contains('open')) moreBtn.classList.add('is-on');
+        moreBtn.addEventListener('click',(e)=>{
+            e.preventDefault();
+            e.stopPropagation();
+            toggleAnimMorePanel();
+        });
+        ddAnim.appendChild(moreBtn);
+
+        if(ddAnimMore?.classList.contains('open')){
+            buildAnimMoreDD({ cardRuns, makeCard });
+        }
+
         const tick=()=>{ cardRuns.forEach(fn=>{ try{fn();}catch(_){} }); };
         setTimeout(()=>{ tick(); refitOpenAnimCards(); },40);
         setTimeout(refitOpenAnimCards, 120);
         animIvs.push(setInterval(tick,720));
+    }
+
+    function makeComingSoonCard(an){
+        const presetId=String(an.id||'').toLowerCase();
+        const pack=captionPresets()[presetId]||window.SolisStylePack?.preset?.(presetId)||null;
+        const engineId=previewEngineForPreset(presetId, pack, an);
+        const card=document.createElement('div');
+        card.className='sub-acard is-soon';
+        card.dataset.aid=presetId;
+        card.title='Coming soon to the market';
+        const badge=document.createElement('span');
+        badge.className='sub-soon-badge';
+        badge.textContent='Soon';
+        const prev=document.createElement('div'); prev.className='sub-aprev';
+        const nm=document.createElement('div'); nm.className='sub-aname';
+        nm.textContent=(pack&&pack.name)||an.name;
+        card.appendChild(badge);
+        card.appendChild(prev);
+        card.appendChild(nm);
+        const cardFont=pack?.font||'Montserrat';
+        const cardWpc=pack?.words_per_chunk||(an.fixedWpc||ANIM_SAMPLE_WPC);
+        const sampleWords=subtitleLoopWords().slice(0, Math.max(4, cardWpc*2));
+        prev.style.fontFamily=fontStack(cardFont);
+        prev.style.fontWeight=fontWeightFor(cardFont);
+        try{
+            const runner=createAnimPreviewLoop(prev, { ...an, id: engineId, name: an.name }, {
+                live:false, card:true, words: sampleWords, wordsPerChunk: cardWpc,
+            });
+            window._animCardRunners.push(runner);
+        }catch(_){}
+        card.addEventListener('click',(e)=>{
+            e.preventDefault();
+            e.stopPropagation();
+        });
+        return card;
+    }
+
+    function buildAnimMoreDD(opts){
+        if(!ddAnimMore) return;
+        const makeCard=opts?.makeCard;
+        const moreList=captionMoreAnims();
+        ddAnimMore.innerHTML='';
+
+        const head=document.createElement('div');
+        head.className='sub-preset-head';
+        head.innerHTML=`<div class="sub-preset-title">Subtitle market</div>`;
+        ddAnimMore.appendChild(head);
+
+        const soon=document.createElement('div');
+        soon.className='sub-market-soon';
+        soon.innerHTML=`
+            <div class="sub-market-soon-kicker">Market</div>
+            <div class="sub-market-soon-title">Coming soon to the market</div>
+            <p class="sub-market-soon-copy">Hormozi, Marker Swipe, Hook, and more styles are on the way. Your core presets stay available.</p>
+        `;
+        ddAnimMore.appendChild(soon);
+
+        const recentSec=document.createElement('div');
+        recentSec.className='sub-anim-sec';
+        const recentLab=document.createElement('div');
+        recentLab.className='sub-anim-sec-label';
+        recentLab.textContent='Recently used';
+        recentSec.appendChild(recentLab);
+        const recentIds=readRecentPresets().filter(id=>!isMarketComingSoon(id));
+        const recentGrid=document.createElement('div');
+        recentGrid.className='sub-anim-grid';
+        if(recentIds.length && typeof makeCard==='function'){
+            recentIds.forEach((id)=>{
+                const an=captionAnims().find(a=>String(a.id).toLowerCase()===id)
+                    || { id, name: (captionPresets()[id]?.name||id), anim: captionPresets()[id]?.anim||id };
+                recentGrid.appendChild(makeCard(an));
+            });
+        }else{
+            const empty=document.createElement('div');
+            empty.className='sub-market-empty-recent';
+            empty.textContent='Pick a preset — it’ll show up here.';
+            recentSec.appendChild(empty);
+        }
+        if(recentIds.length) recentSec.appendChild(recentGrid);
+        ddAnimMore.appendChild(recentSec);
+
+        if(moreList.length){
+            const groups=document.createElement('div');
+            groups.className='sub-anim-more-groups';
+            const byGroup={};
+            moreList.forEach((an)=>{
+                const g=String(an.group||an.source||'extra');
+                if(!byGroup[g]) byGroup[g]=[];
+                byGroup[g].push(an);
+            });
+            const order=['submagic','opusclip','vizard','extra'];
+            const keys=[...order.filter(k=>byGroup[k]), ...Object.keys(byGroup).filter(k=>!order.includes(k))];
+            keys.forEach((g)=>{
+                const sec=document.createElement('div');
+                sec.className='sub-anim-sec';
+                const lab=document.createElement('div');
+                lab.className='sub-anim-sec-label';
+                lab.textContent=`${captionSourceLabel(g)} · Coming soon`;
+                sec.appendChild(lab);
+                const grid=document.createElement('div');
+                grid.className='sub-anim-grid';
+                byGroup[g].forEach((an)=>grid.appendChild(makeComingSoonCard(an)));
+                sec.appendChild(grid);
+                groups.appendChild(sec);
+            });
+            ddAnimMore.appendChild(groups);
+        }
+
+        if(ddAnimMore.classList.contains('open')){
+            setTimeout(()=>{
+                try{
+                    ddAnimMore.querySelectorAll('.sub-aprev').forEach((el)=>{
+                        try{ fitCardSample(el); }catch(_){}
+                    });
+                }catch(_){}
+            },40);
+        }
+    }
+
+    function toggleAnimMorePanel(){
+        if(!ddAnim || !ddAnimMore) return;
+        if(ddAnimMore.classList.contains('open')){
+            closeAnimMorePanel();
+            try{ placeOpenDd(); }catch(_){}
+            return;
+        }
+        ddAnimMore.classList.add('open','is-swap-in');
+        buildAnimDD({ fetch:false });
+        document.getElementById('subWantMoreSubs')?.classList.add('is-on');
+        requestAnimationFrame(()=>{
+            placeOpenDd();
+            refitOpenAnimCards();
+        });
+        setTimeout(()=>ddAnimMore.classList.remove('is-swap-in'),180);
+    }
+
+    function closeAnimMorePanel(){
+        if(!ddAnimMore) return;
+        ddAnimMore.classList.remove('open','is-dragging','is-swap-in');
+        document.getElementById('subWantMoreSubs')?.classList.remove('is-on');
     }
 
     function wireButtons(){
@@ -14340,7 +14837,7 @@
                 if(curAnim) setTimeout(()=>showAnimFullPreview(curAnim),40);
             },
         });
-        [ddFont, ddColor, ddAnim].forEach((dd)=>{
+        [ddFont, ddColor, ddAnim, ddAnimMore].forEach((dd)=>{
             if(!dd || dd.dataset.pillHoverBound==='1') return;
             dd.dataset.pillHoverBound='1';
             dd.addEventListener('pointerenter',()=>{
@@ -14379,7 +14876,7 @@
             try{ window.syncPillAnimNudge?.(); }catch(_){}
         });
         document.addEventListener('mousedown',e=>{
-            if(pill.contains(e.target)||ddFont.contains(e.target)||ddColor.contains(e.target)||ddAnim.contains(e.target))return;
+            if(pill.contains(e.target)||ddFont.contains(e.target)||ddColor.contains(e.target)||ddAnim.contains(e.target)||ddAnimMore?.contains(e.target))return;
             if(e.target.closest('.sub-resize-handle'))return;
             if(e.target.closest('#subMemActions,.sub-mem-actions,.sub-mem-ghost'))return;
             if(active&&active.contains(e.target))return;
@@ -14562,9 +15059,13 @@
         const pad=10;
         const phone=document.getElementById('templateVideoPreview');
         const pR=phone?.getBoundingClientRect?.();
+        const moreOpen=dd===ddAnim && ddAnimMore?.classList.contains('open');
+        const moreW=moreOpen ? (ddAnimMore.offsetWidth||320) : 0;
+        const pairGap=10;
+        const totalW=dW + (moreOpen ? pairGap+moreW : 0);
 
-        let left=mR.left+(mR.width-dW)/2;
-        left=Math.max(pad, Math.min(left, vp.w-dW-pad));
+        let left=mR.left+(mR.width-totalW)/2;
+        left=Math.max(pad, Math.min(left, vp.w-totalW-pad));
 
         const spaceBelow=vp.h-(mR.bottom+gap)-pad;
         const spaceAbove=mR.top-gap-pad;
@@ -14586,27 +15087,51 @@
 
         if(pR && pR.width>40){
             const overlapsPhone=!(
-                left+dW<=pR.left+2
+                left+totalW<=pR.left+2
                 || left>=pR.right-2
                 || top+dH<=pR.top+2
                 || top>=pR.bottom-2
             );
             if(overlapsPhone){
                 const rightOfPhone=pR.right+gap;
-                const leftOfPhone=pR.left-dW-gap;
-                const canRight=rightOfPhone+dW<=vp.w-pad;
+                const leftOfPhone=pR.left-totalW-gap;
+                const canRight=rightOfPhone+totalW<=vp.w-pad;
                 const canLeft=leftOfPhone>=pad;
                 const pillCx=mR.left+mR.width/2;
                 const phoneCx=pR.left+pR.width/2;
                 if(pillCx>=phoneCx && canRight) left=rightOfPhone;
                 else if(canLeft) left=leftOfPhone;
                 else if(canRight) left=rightOfPhone;
-                left=Math.max(pad, Math.min(left, vp.w-dW-pad));
+                left=Math.max(pad, Math.min(left, vp.w-totalW-pad));
+            }
+        }
+
+        let coreLeft=left;
+        let moreLeft=left+dW+pairGap;
+        if(moreOpen){
+            const roomRight=vp.w-pad-(left+dW+pairGap);
+            const roomLeft=left-pad;
+            if(roomRight>=moreW-4){
+                coreLeft=left;
+                moreLeft=left+dW+pairGap;
+            }else if(roomLeft>=moreW-4){
+                moreLeft=left;
+                coreLeft=left+moreW+pairGap;
+            }else{
+                coreLeft=left;
+                moreLeft=Math.max(pad, Math.min(left+dW+pairGap, vp.w-moreW-pad));
             }
         }
 
         dd.style.top=Math.round(top)+'px';
-        dd.style.left=Math.round(left)+'px';
+        dd.style.left=Math.round(coreLeft)+'px';
+        if(moreOpen && ddAnimMore){
+            const moreH=ddAnimMore.offsetHeight||dH;
+            let moreTop=top;
+            if(moreTop+moreH>vp.h-pad) moreTop=Math.max(pad, vp.h-moreH-pad);
+            ddAnimMore.style.top=Math.round(moreTop)+'px';
+            ddAnimMore.style.left=Math.round(moreLeft)+'px';
+        }
     }
 
     function openDD(dd,btn){
@@ -14617,6 +15142,7 @@
                     stopAnimFullPreview(true);
                 }
                 stopAnimCardLoops();
+                closeAnimMorePanel();
             }
             if(prev===ddColor) closePlusPop();
             prev.classList.add('is-swap-out');
@@ -14677,8 +15203,9 @@
                 if(!animLivePinned) stopAnimFullPreview(true);
                 else softStopAnimPreview();
                 stopAnimCardLoops();
+                closeAnimMorePanel();
                 if(animLivePinned&&curAnim&&active&&!isOverlayText(active)){
-                    requestAnimationFrame(()=>showAnimFullPreview(curAnim));
+                    requestAnimationFrame(()=>showAnimFullPreview(activeCaptionPresetId||curAnim));
                 }
             }
             d.classList.remove('open','is-dragging','is-swap-out','is-swap-in');

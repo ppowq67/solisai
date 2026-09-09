@@ -1096,6 +1096,23 @@
       gap: 3px;
       min-width: 0;
     }
+    .plan-features li.is-hero .plan-feat-hero-year {
+      display: none;
+      font-size: 12px;
+      font-weight: 650;
+      color: var(--text-muted);
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+    }
+    .plan-features li.is-hero .plan-feat-hero-year b {
+      font-weight: 800;
+      font-family: var(--font-numeric);
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+    }
+    body.is-billing-annual .plan-features li.is-hero .plan-feat-hero-year {
+      display: block;
+    }
     .plan-features li.is-hero .plan-feat-hero-main {
       font-size: 13.5px;
       font-weight: 700;
@@ -2498,6 +2515,7 @@
             <li class="is-hero">
               <span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
               <span class="plan-feat-hero">
+                <span class="plan-feat-hero-year">Up to <b>2,700</b> clips/year</span>
                 <span class="plan-feat-hero-main">Up to <b>225</b> clips/month</span>
                 <span class="plan-feat-hero-sub">75 uploads · up to 3 clips/upload</span>
               </span>
@@ -2539,6 +2557,7 @@
             <li class="is-hero">
               <span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
               <span class="plan-feat-hero">
+                <span class="plan-feat-hero-year">Up to <b>12,000</b> clips/year</span>
                 <span class="plan-feat-hero-main">Up to <b>1,000</b> clips/month</span>
                 <span class="plan-feat-hero-sub">200 uploads · up to 5 clips/upload</span>
               </span>
@@ -2575,6 +2594,7 @@
             <li class="is-hero">
               <span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>
               <span class="plan-feat-hero">
+                <span class="plan-feat-hero-year">Up to <b>24,000</b> clips/year</span>
                 <span class="plan-feat-hero-main">Up to <b>2,000</b> clips/month</span>
                 <span class="plan-feat-hero-sub">400 uploads · up to 5 clips/upload</span>
               </span>
@@ -3161,7 +3181,7 @@
   </script>
   <script src="/js/payment/payment-flow.js?v=17"></script>
   <script src="/js/s_new/qwqs.js?v=7"></script>
-  <script src="/js/payment/premium-page.js?v=9"></script>
+  <script src="/js/payment/premium-page.js?v=10"></script>
   <script>
     (function () {
       var params = new URLSearchParams(window.location.search);
