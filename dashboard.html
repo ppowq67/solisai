@@ -7,6 +7,13 @@
     if (v !== 'off' && v !== 'preview' && v !== 'always') v = 'preview';
     document.documentElement.setAttribute('data-solis-cursor', v);
   } catch (e) {}
+  try {
+    var ret = sessionStorage.getItem('solis_mcp_oauth_return') || '';
+    if (ret && ret.indexOf('/oauth-mcp') !== -1) {
+      sessionStorage.removeItem('solis_mcp_oauth_return');
+      window.location.replace(ret);
+    }
+  } catch (e) {}
 })();
 </script>
 <head>
@@ -2171,7 +2178,7 @@
 
                 <section class="stgPanel" id="stgPanelMcp" data-stg-panel="mcp">
                     <div class="stgMcp">
-                        <p class="stgPanelLead">Connect Claude, Cursor, or ChatGPT to Solis. Create a token, copy a client config, then ask your agent to clip and improve videos. Renders use your Solis plan quota.</p>
+                        <p class="stgPanelLead">Connect Claude, Cursor, or ChatGPT to Solis. Claude.ai and ChatGPT use OAuth when you add the endpoint as a custom connector. Cursor / Claude Code use a token in the config headers. Renders use your Solis plan quota.</p>
 
                         <div class="stgMcpEndpoint">
                             <div class="stgMcpEndpointLabel">MCP endpoint</div>
