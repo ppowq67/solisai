@@ -36,7 +36,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
     <script src="/js/s_new/solis-sg.js?v=1"></script>
-    <script src="/js/i_dq/ranking-text-pill.js?v=109"></script>
+    <script src="/js/i_dq/ranking-text-pill.js?v=110"></script>
     <script src="/js/i_dq/ranking-template-editor.js?v=22"></script>
     <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png?v=15">
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon/genfavicon-192.png?v=15">
@@ -8485,7 +8485,7 @@
 .sub-sw.sub-sw-add{
     appearance:none;-webkit-appearance:none;
     position:relative;
-    margin:0 0 0 2px;padding:0;box-sizing:border-box;
+    margin:0 0 0 auto;padding:0;box-sizing:border-box;
     display:inline-grid;place-items:center;
     width:28px;height:28px;flex:0 0 28px;
     border-radius:999px;cursor:var(--solis-preview-cursor-hand);
@@ -8507,22 +8507,18 @@
     background:linear-gradient(145deg,#FFF3EF,rgba(255,232,220,.92));
     border-color:rgba(255,106,61,.5);
 }
-.sub-cplus-pop{
-    display:none;
-    margin-top:10px;
-    padding:10px;
-    border-radius:14px;
-    background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,248,242,.72));
-    border:1px solid rgba(255,255,255,.9);
-    border-bottom-color:rgba(200,185,170,.22);
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.95),
-        0 4px 14px rgba(120,90,60,.1);
-    backdrop-filter:blur(12px) saturate(140%);
-    -webkit-backdrop-filter:blur(12px) saturate(140%);
+.sub-edge .sub-sw-add{
+    align-self:center;
+    margin-left:auto;
 }
-.sub-cplus-pop.open{display:block;}
-.sub-cplus-head{
+.sub-cgrid .sub-sw-add{margin-left:auto;}
+.sub-cplus-panel{
+    display:block;
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid rgba(200,185,170,.18);
+}
+.sub-cplus-panel .sub-cplus-head{
     display:flex;align-items:center;justify-content:space-between;
     gap:8px;margin-bottom:8px;
 }
@@ -8530,14 +8526,6 @@
     font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
     color:rgba(50,38,28,.45);
 }
-.sub-cplus-close{
-    appearance:none;border:0;background:transparent;cursor:var(--solis-preview-cursor-hand);
-    width:22px;height:22px;border-radius:8px;color:rgba(50,38,28,.45);
-    display:grid;place-items:center;padding:0;
-    transition:background .12s,color .12s;
-}
-.sub-cplus-close:hover{background:rgba(0,0,0,.05);color:#32261c;}
-.sub-cplus-close svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;}
 .sub-spectrum{
     position:relative;height:20px;border-radius:999px;cursor:var(--solis-preview-cursor-hand);
     background:linear-gradient(90deg,
@@ -8567,6 +8555,21 @@
     transition:transform .1s ease;
 }
 .sub-cplus-sw:hover{transform:scale(1.08);}
+.rk-cplus-lab{
+    font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    color:rgba(50,38,28,.4);margin:8px 0 4px;
+}
+.rk-sv-panel{
+    position:relative;height:96px;border-radius:12px;cursor:var(--solis-preview-cursor-hand);
+    border:1px solid rgba(255,255,255,.85);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 1px 3px rgba(120,90,60,.1);
+    touch-action:none;overflow:hidden;
+}
+.rk-sv-thumb{
+    position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:999px;
+    border:2px solid #fff;box-shadow:0 1px 4px rgba(40,28,18,.28);pointer-events:none;
+    left:80%;top:30%;background:#FF6A3D;
+}
 
 .sub-edge{
     display:flex;align-items:stretch;gap:6px;
@@ -8699,13 +8702,39 @@
     -webkit-backdrop-filter:blur(18px) saturate(140%);
 }
 .sub-preset-head{
-    display:flex;flex-direction:column;gap:2px;padding:0 2px 2px;
+    display:flex;flex-direction:row;align-items:center;justify-content:space-between;
+    gap:10px;padding:0 2px 2px;
 }
 .sub-preset-title{
     font-family:'Plus Jakarta Sans',sans-serif;
     font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
     color:rgba(50,38,28,.55);
 }
+.sub-emoji-toggle{
+    display:inline-flex;align-items:center;gap:8px;
+    margin-left:auto;flex:0 0 auto;
+    user-select:none;-webkit-user-select:none;
+}
+.sub-emoji-toggle-label{
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    color:rgba(50,38,28,.48);white-space:nowrap;
+}
+.sub-emoji-switch{
+    appearance:none;-webkit-appearance:none;position:relative;
+    width:36px;height:20px;margin:0;padding:0;border:0;border-radius:999px;
+    background:rgba(180,155,130,.28);cursor:var(--solis-preview-cursor-hand);
+    transition:background .18s ease;flex:0 0 36px;
+}
+.sub-emoji-switch::after{
+    content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:999px;
+    background:#fff;box-shadow:0 1px 3px rgba(40,28,18,.22);
+    transition:transform .18s ease;
+}
+.sub-emoji-switch.is-on{
+    background:linear-gradient(135deg,#FF8A4C,#FF6A3D);
+}
+.sub-emoji-switch.is-on::after{transform:translateX(16px);}
 .sub-preset-sub{display:none;}
 .sub-anim-dd::-webkit-scrollbar{width:3px;}
 .sub-anim-dd::-webkit-scrollbar-thumb{background:rgba(180,155,130,.35);border-radius:4px;}
@@ -9206,14 +9235,13 @@
     z-index:2;
 }
 @keyframes sub-beast-emoji-pop{
-    0%{opacity:0;transform:translateX(-50%) translateY(var(--emoji-enter, -0.85em)) scale(.92);}
-    55%{opacity:1;transform:translateX(-50%) translateY(0) scale(1.06);}
-    70%{transform:translateX(calc(-50% + 2px)) translateY(1px) scale(1);}
-    85%{transform:translateX(calc(-50% - 2px)) translateY(-1px) scale(1);}
-    100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1);}
+    0%{opacity:0;transform:translateX(-50%) translateY(0.75em) rotate(-8deg);}
+    45%{opacity:1;transform:translateX(-50%) translateY(0) rotate(8deg);}
+    70%{transform:translateX(-50%) translateY(0) rotate(-5deg);}
+    100%{opacity:1;transform:translateX(-50%) translateY(0) rotate(3deg);}
 }
-.sub-beast-emoji.is-above{top:-1.15em;--emoji-enter:-0.9em;}
-.sub-beast-emoji.is-below{bottom:-1.15em;top:auto;--emoji-enter:0.9em;}
+.sub-beast-emoji.is-above{top:-1.15em;}
+.sub-beast-emoji.is-below{bottom:-1.15em;top:auto;}
 .sub-chunk-line.sub-beast-line,
 .sub-aprev.sub-beast-line{
     gap:0.55em !important;
@@ -10673,7 +10701,7 @@
         const stroke=beastStrokePx(live, block);
         container.style.setProperty('--beast-stroke', `${stroke}px`);
         const previewEmojis=['🔥','😱','💀','💰','😂','🏆','✨','👀'];
-        if((chunkIdx % 3) === 1){
+        if(isEmojiAnimsOn() && (chunkIdx % 3) === 1){
             const emo=document.createElement('span');
             emo.className='sub-beast-emoji ' + ((chunkIdx % 6)===1 ? 'is-above' : 'is-below');
             emo.textContent=previewEmojis[chunkIdx % previewEmojis.length];
@@ -10793,6 +10821,40 @@
     const TCOLS=['#ffffff','#FF6A3D','#facc15','#80DE4A','#3B82F6'];
     const BGCOLS=['#ffffff','#FF6A3D','#3b82f6'];
     const CUSTOM_COLS_KEY='solis_sub_custom_cols';
+    const EMOJI_ANIMS_KEY='solis_sub_emoji_anims';
+    function isEmojiAnimsOn(){
+        try{
+            const v=localStorage.getItem(EMOJI_ANIMS_KEY);
+            if(v==null) return true;
+            return v==='1'||v==='true';
+        }catch(_){ return true; }
+    }
+    function setEmojiAnimsOn(on){
+        try{ localStorage.setItem(EMOJI_ANIMS_KEY, on?'1':'0'); }catch(_){}
+        try{
+            document.querySelectorAll('.sub-emoji-switch').forEach(sw=>{
+                sw.classList.toggle('is-on', !!on);
+                sw.setAttribute('aria-checked', on?'true':'false');
+            });
+        }catch(_){}
+        try{
+            if((curAnim||active?.dataset?.subAnim)==='beast' && (animLivePinned||animFullRunner)){
+                refreshPinnedAnimStyle?.();
+            }
+        }catch(_){}
+    }
+    function makeEmojiAnimToggle(){
+        const wrap=document.createElement('div');
+        wrap.className='sub-emoji-toggle';
+        const on=isEmojiAnimsOn();
+        wrap.innerHTML=`<span class="sub-emoji-toggle-label">Emoji animations</span><button type="button" class="sub-emoji-switch${on?' is-on':''}" role="switch" aria-checked="${on?'true':'false'}" aria-label="Emoji animations"></button>`;
+        const sw=wrap.querySelector('.sub-emoji-switch');
+        sw.addEventListener('click',e=>{
+            e.stopPropagation();
+            setEmojiAnimsOn(!isEmojiAnimsOn());
+        });
+        return wrap;
+    }
     const FW={'Montserrat':'700','Fredoka':'700','Bebas Neue':'400','Anton':'400','Luckiest Guy':'400','Poppins':'600','Roboto':'700','Komika Axis':'400'};
     const SH={none:'none'};
     Object.defineProperty(SH,'outline',{get(){ return shadowCss('outline'); },enumerable:true});
@@ -10840,12 +10902,9 @@
         ddColor.innerHTML=`
             <div class="sub-color-line"><span class="sub-clabel" id="subColorLabel">Color</span><div class="sub-cgrid" id="subTCG"></div></div>
             <div class="sub-color-line"><span class="sub-clabel">Outline</span><div class="sub-edge" id="subSHG"></div></div>
-            <div class="sub-cplus-pop" id="subCPlusPop" aria-hidden="true">
+            <div class="sub-cplus-panel" id="subCPlusPop">
                 <div class="sub-cplus-head">
                     <span class="sub-cplus-title" id="subCPlusTitle">Custom color</span>
-                    <button type="button" class="sub-cplus-close" id="subCPlusClose" aria-label="Close">
-                        <svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3L3 9"/></svg>
-                    </button>
                 </div>
                 <div class="sub-spectrum" id="subSpectrum" title="Drag to pick a color">
                     <div class="sub-spectrum-thumb" id="subSpectrumThumb"></div>
@@ -11622,23 +11681,16 @@
         return `#${f(0)}${f(8)}${f(4)}`;
     }
     function isPlusPopOpen(){
-        return !!document.getElementById('subCPlusPop')?.classList.contains('open');
+        return true;
     }
     function closePlusPop(){
-        const pop=document.getElementById('subCPlusPop');
-        if(!pop) return;
-        pop.classList.remove('open');
-        pop.setAttribute('aria-hidden','true');
         ddColor?.querySelectorAll('.sub-sw-add').forEach(b=>b.classList.remove('on'));
     }
     function openPlusPop(target){
         colorTarget='text';
-        const pop=document.getElementById('subCPlusPop');
+        const panel=document.getElementById('subCPlusPop');
         const title=document.getElementById('subCPlusTitle');
-        if(!pop) return;
         if(title) title.textContent='Custom color';
-        pop.classList.add('open');
-        pop.setAttribute('aria-hidden','false');
         ddColor?.querySelectorAll('.sub-sw-add').forEach(b=>{
             b.classList.toggle('on', b.dataset.target==='text');
         });
@@ -11649,6 +11701,7 @@
         }
         renderPlusRecents();
         wireSpectrum();
+        try{ panel?.scrollIntoView?.({block:'nearest',behavior:'smooth'}); }catch(_){}
     }
     function applyPickedColor(hex, opts){
         opts=opts||{};
@@ -11673,7 +11726,7 @@
             s.style.background=c;
             s.title=c;
             if(c==='#ffffff') s.style.boxShadow='0 1px 2px rgba(120,90,60,.12), inset 0 0 0 1px rgba(0,0,0,.12)';
-            s.onclick=()=>{ applyPickedColor(c); closePlusPop(); };
+            s.onclick=()=>{ applyPickedColor(c); };
             box.appendChild(s);
         });
     }
@@ -11713,10 +11766,6 @@
             bar.addEventListener('pointerup',onUp);
             bar.addEventListener('pointercancel',onUp);
         });
-        document.getElementById('subCPlusClose')?.addEventListener('click',e=>{
-            e.stopPropagation();
-            closePlusPop();
-        });
     }
     function makeAddSwatch(target){
         const btn=document.createElement('button');
@@ -11724,14 +11773,10 @@
         btn.className='sub-sw sub-sw-add';
         btn.dataset.target=target;
         btn.title='Custom color';
-        btn.setAttribute('aria-label', target==='fill'?'Custom fill color':'Custom text color');
+        btn.setAttribute('aria-label','Custom text color');
         btn.innerHTML='<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3.25v9.5M3.25 8h9.5"/></svg>';
         btn.onclick=e=>{
             e.stopPropagation();
-            if(isPlusPopOpen() && colorTarget===target){
-                closePlusPop();
-                return;
-            }
             openPlusPop(target);
         };
         return btn;
@@ -11812,7 +11857,6 @@
             };
             tg.appendChild(s);
         });
-        tg.appendChild(makeAddSwatch('text'));
         if(!tg._colorHoverBound){
             tg._colorHoverBound=true;
             tg.addEventListener('pointerleave',(e)=>{
@@ -11823,6 +11867,7 @@
         }
         syncTextColorSwatches();
         wireSpectrum();
+        renderPlusRecents();
     }
 
     function ensureSubtitleActiveForStyle(){
@@ -11903,6 +11948,7 @@
             });
             g.appendChild(c);
         });
+        g.appendChild(makeAddSwatch('text'));
 
         requestAnimationFrame(()=>syncShadowSeg());
     }
@@ -14067,7 +14113,12 @@
                     });
             }
             if(!captionAnims().length){
-                ddAnim.innerHTML='<div class="sub-preset-head"><div class="sub-preset-title">Presets</div></div>';
+                const emptyHead=document.createElement('div');
+                emptyHead.className='sub-preset-head';
+                emptyHead.innerHTML='<div class="sub-preset-title">Presets</div>';
+                emptyHead.appendChild(makeEmojiAnimToggle());
+                ddAnim.innerHTML='';
+                ddAnim.appendChild(emptyHead);
                 return;
             }
         }
@@ -14079,6 +14130,7 @@
         const head=document.createElement('div');
         head.className='sub-preset-head';
         head.innerHTML=`<div class="sub-preset-title">Presets</div>`;
+        head.appendChild(makeEmojiAnimToggle());
         ddAnim.appendChild(head);
 
         function makeCard(an){
