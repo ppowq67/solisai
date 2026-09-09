@@ -1401,13 +1401,13 @@
     height: 18px;
 }
 
-.stgAppIcon--modal {
-    background: #0B0F0A;
+.stgAppIcon--medal {
+    background: #5B4CFF;
 }
 
-.stgAppIcon--modal svg {
-    width: 28px;
-    height: 30px;
+.stgAppIcon--medal svg {
+    width: 18px;
+    height: 18px;
 }
 
 .stgAppIcon--claude {
