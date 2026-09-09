@@ -66,8 +66,8 @@
     <script src="/js/i_dq/profile-notifications.js?t=20260826163000"></script>
     <script src="/js/s_new/qwsqa.js?v=7"></script>
     <script src="/js/s_new/qwe.js?v=23"></script>
-    <link rel="stylesheet" href="/style/ss/stg-modal.css?v=80">
-    <script src="/js/s_new/stg.js?v=72"></script>
+    <link rel="stylesheet" href="/style/ss/stg-modal.css?v=81">
+    <script src="/js/s_new/stg.js?v=73"></script>
     <script src="/js/i_dq/video-generation-hook.js?v=1"></script>
     <script src="/js/ui/progress-ui.js?v=2"></script>
     <script src="/js/ui/generation-progress-spinner.js?v=82"></script>
@@ -7980,7 +7980,7 @@
 .overlay-text-block[data-ai-hook="1"][data-hook-box="1"].selected{
     background:rgba(255,255,255,.94) !important;
     border:2px solid #f97316 !important;
-    border-radius:3px !important;
+    border-radius:18px !important;
     box-shadow:
         0 0 0 2px rgba(249,115,22,.22),
         0 4px 14px rgba(0,0,0,.14) !important;
@@ -7989,7 +7989,7 @@
 .overlay-text-block[data-ai-hook="1"]:not([data-hook-box="1"]).selected{
     background:transparent !important;
     border:2px solid #f97316 !important;
-    border-radius:3px !important;
+    border-radius:18px !important;
     box-shadow:
         0 0 0 2px rgba(249,115,22,.22),
         0 4px 14px rgba(0,0,0,.14) !important;
@@ -8099,6 +8099,10 @@
 .overlay-text-block[data-ai-hook="1"].sub-suggest[data-hook-box="1"]{
     background:rgba(255,255,255,.94) !important;
     border:none !important;
+    border-radius:18px !important;
+}
+.overlay-text-block[data-ai-hook="1"][data-hook-box="1"]{
+    border-radius:18px !important;
 }
 .sub-guide{position:absolute;background:#f97316;pointer-events:none;z-index:200;display:none;}
 .sub-guide.h{left:0;right:0;height:2px;box-shadow:0 0 6px rgba(249,115,22,.7);}
@@ -9192,7 +9196,24 @@
     font-weight:400 !important;
     text-shadow:none !important;
     overflow:visible;
+    position:relative;
 }
+.sub-beast-emoji{
+    position:absolute;left:50%;transform:translateX(-50%);
+    font-size:0.95em;line-height:1;pointer-events:none;
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.35));
+    animation:sub-beast-emoji-pop .22s cubic-bezier(.22,1,.36,1) both;
+    z-index:2;
+}
+@keyframes sub-beast-emoji-pop{
+    0%{opacity:0;transform:translateX(-50%) translateY(var(--emoji-enter, -0.85em)) scale(.92);}
+    55%{opacity:1;transform:translateX(-50%) translateY(0) scale(1.06);}
+    70%{transform:translateX(calc(-50% + 2px)) translateY(1px) scale(1);}
+    85%{transform:translateX(calc(-50% - 2px)) translateY(-1px) scale(1);}
+    100%{opacity:1;transform:translateX(-50%) translateY(0) scale(1);}
+}
+.sub-beast-emoji.is-above{top:-1.15em;--emoji-enter:-0.9em;}
+.sub-beast-emoji.is-below{bottom:-1.15em;top:auto;--emoji-enter:0.9em;}
 .sub-chunk-line.sub-beast-line,
 .sub-aprev.sub-beast-line{
     gap:0.55em !important;
@@ -9208,7 +9229,7 @@
     display:inline-block;
     margin:0;
     transition:color .18s ease, -webkit-text-fill-color .18s ease, transform .22s cubic-bezier(.22,1,.36,1);
-    filter:drop-shadow(0 1px 1px rgba(0,0,0,.45));
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.45));
 }
 .sub-text-block[data-sub-anim="beast"],
 .sub-text-block[data-sub-anim="beast"] .sub-text-inner{
@@ -9226,19 +9247,29 @@
     color:#FFEE00 !important;
     -webkit-text-fill-color:#FFEE00 !important;
     -webkit-text-stroke:var(--beast-stroke,0.17em) #000000;
-    filter:drop-shadow(0 1px 1px rgba(0,0,0,.45));
+    text-shadow:0 -0.04em 0 rgba(255,248,168,.85);
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.45));
 }
 .sub-beast-word.is-green,
 .sub-beast-word.active-green{
     color:#00FF2A !important;
     -webkit-text-fill-color:#00FF2A !important;
     -webkit-text-stroke:var(--beast-stroke,0.17em) #000000;
-    filter:drop-shadow(0 1px 1px rgba(0,0,0,.45));
+    text-shadow:0 -0.04em 0 rgba(184,255,192,.85);
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.45));
+}
+.sub-beast-word.is-red,
+.sub-beast-word.active-red{
+    color:#FF2A2A !important;
+    -webkit-text-fill-color:#FF2A2A !important;
+    -webkit-text-stroke:var(--beast-stroke,0.17em) #000000;
+    text-shadow:0 -0.04em 0 rgba(255,160,160,.85);
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.45));
 }
 @keyframes sub-beast-pop{
-    0%{transform:scale(.86);opacity:0;}
-    70%{transform:scale(1.05);opacity:1;}
-    100%{transform:scale(1) translateY(0);opacity:1;}
+    0%{transform:scale(.9);opacity:1;}
+    70%{transform:scale(1.06);opacity:1;}
+    100%{transform:scale(1);opacity:1;}
 }
 .sub-beast-pop .sub-beast-word{
     animation:sub-beast-pop .22s cubic-bezier(.22,1,.36,1) both;
@@ -10641,6 +10672,14 @@
         const block=live ? (container.closest?.('.sub-text-block')||active||animPinnedBlock) : null;
         const stroke=beastStrokePx(live, block);
         container.style.setProperty('--beast-stroke', `${stroke}px`);
+        const previewEmojis=['🔥','😱','💀','💰','😂','🏆','✨','👀'];
+        if((chunkIdx % 3) === 1){
+            const emo=document.createElement('span');
+            emo.className='sub-beast-emoji ' + ((chunkIdx % 6)===1 ? 'is-above' : 'is-below');
+            emo.textContent=previewEmojis[chunkIdx % previewEmojis.length];
+            emo.setAttribute('aria-hidden','true');
+            container.appendChild(emo);
+        }
         (words||[]).forEach((word, idx)=>{
             const span=document.createElement('span');
             span.className='sub-beast-word sub-preview-word';
@@ -11158,7 +11197,7 @@
             const custom=block.dataset.hookBoxColor;
             block.style.background=custom||'rgba(255,255,255,.92)';
             block.style.backdropFilter='none';
-            block.style.borderRadius=block.style.borderRadius||'14px';
+            block.style.borderRadius='18px';
             block.style.boxShadow='none';
             if(!locked){
                 let fill=String(block.style.color||'').trim();
@@ -15669,7 +15708,7 @@
             `color:${fill}`,
             `text-shadow:${outline}`,
             boxOn?'background:rgba(255,255,255,.94)':'background:transparent',
-            'border-radius:10px',
+            'border-radius:18px',
             boxOn?`padding:${boxPad}px ${boxPad+6}px`:'padding:0',
             'left:0','right:0','margin-left:auto','margin-right:auto',
             'width:fit-content','max-width:calc(100% - 20px)',
@@ -15925,6 +15964,7 @@
                 box:boxOn,
                 box_color:boxColor,
                 box_border_w:Math.max(6,Math.min(28,Number(block.dataset.hookBoxBorderW)||12)),
+                box_radius:18,
                 outline_color:'black',
                 outline_width:boxOn?0:4,
                 y_ratio:Number(Number(yRatio).toFixed(3)),

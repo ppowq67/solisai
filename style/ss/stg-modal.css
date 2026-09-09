@@ -694,7 +694,7 @@
 .stgCropBackdrop {
     position: fixed;
     inset: 0;
-    z-index: 5200;
+    z-index: 100010;
     background: rgba(28, 25, 23, 0.42);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -709,7 +709,7 @@
 .stgCropModal {
     position: fixed;
     inset: 0;
-    z-index: 5201;
+    z-index: 100011;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3100,6 +3100,13 @@
         transform: translate(-50%, 0) scale(1) !important;
         opacity: 1;
         pointer-events: auto;
+    }
+
+    .stgCropBackdrop {
+        z-index: 200010 !important;
+    }
+    .stgCropModal {
+        z-index: 200011 !important;
     }
 
     .stgShell {
