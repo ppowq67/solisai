@@ -36,7 +36,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
     <script src="/js/s_new/solis-sg.js?v=1"></script>
-    <script src="/js/i_dq/ranking-text-pill.js?v=110"></script>
+    <script src="/js/i_dq/ranking-text-pill.js?v=111"></script>
     <script src="/js/i_dq/ranking-template-editor.js?v=22"></script>
     <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png?v=15">
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon/genfavicon-192.png?v=15">
@@ -8513,11 +8513,18 @@
 }
 .sub-cgrid .sub-sw-add{margin-left:auto;}
 .sub-cplus-panel{
-    display:block;
+    display:none;
     margin-top:12px;
-    padding-top:12px;
-    border-top:1px solid rgba(200,185,170,.18);
+    padding:10px;
+    border-radius:14px;
+    background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,248,242,.72));
+    border:1px solid rgba(255,255,255,.9);
+    border-bottom-color:rgba(200,185,170,.22);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.95),
+        0 4px 14px rgba(120,90,60,.1);
 }
+.sub-cplus-panel.open{display:block;}
 .sub-cplus-panel .sub-cplus-head{
     display:flex;align-items:center;justify-content:space-between;
     gap:8px;margin-bottom:8px;
@@ -8526,6 +8533,14 @@
     font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
     color:rgba(50,38,28,.45);
 }
+.sub-cplus-close{
+    appearance:none;border:0;background:transparent;cursor:var(--solis-preview-cursor-hand);
+    width:22px;height:22px;border-radius:8px;color:rgba(50,38,28,.45);
+    display:grid;place-items:center;padding:0;
+    transition:background .12s,color .12s;
+}
+.sub-cplus-close:hover{background:rgba(0,0,0,.05);color:#32261c;}
+.sub-cplus-close svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;}
 .sub-spectrum{
     position:relative;height:20px;border-radius:999px;cursor:var(--solis-preview-cursor-hand);
     background:linear-gradient(90deg,
@@ -10902,9 +10917,12 @@
         ddColor.innerHTML=`
             <div class="sub-color-line"><span class="sub-clabel" id="subColorLabel">Color</span><div class="sub-cgrid" id="subTCG"></div></div>
             <div class="sub-color-line"><span class="sub-clabel">Outline</span><div class="sub-edge" id="subSHG"></div></div>
-            <div class="sub-cplus-panel" id="subCPlusPop">
+            <div class="sub-cplus-panel" id="subCPlusPop" aria-hidden="true">
                 <div class="sub-cplus-head">
                     <span class="sub-cplus-title" id="subCPlusTitle">Custom color</span>
+                    <button type="button" class="sub-cplus-close" id="subCPlusClose" aria-label="Close">
+                        <svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3L3 9"/></svg>
+                    </button>
                 </div>
                 <div class="sub-spectrum" id="subSpectrum" title="Drag to pick a color">
                     <div class="sub-spectrum-thumb" id="subSpectrumThumb"></div>
@@ -11681,16 +11699,24 @@
         return `#${f(0)}${f(8)}${f(4)}`;
     }
     function isPlusPopOpen(){
-        return true;
+        return !!document.getElementById('subCPlusPop')?.classList.contains('open');
     }
     function closePlusPop(){
+        const panel=document.getElementById('subCPlusPop');
+        if(panel){
+            panel.classList.remove('open');
+            panel.setAttribute('aria-hidden','true');
+        }
         ddColor?.querySelectorAll('.sub-sw-add').forEach(b=>b.classList.remove('on'));
     }
     function openPlusPop(target){
         colorTarget='text';
         const panel=document.getElementById('subCPlusPop');
         const title=document.getElementById('subCPlusTitle');
+        if(!panel) return;
         if(title) title.textContent='Custom color';
+        panel.classList.add('open');
+        panel.setAttribute('aria-hidden','false');
         ddColor?.querySelectorAll('.sub-sw-add').forEach(b=>{
             b.classList.toggle('on', b.dataset.target==='text');
         });
@@ -11701,7 +11727,6 @@
         }
         renderPlusRecents();
         wireSpectrum();
-        try{ panel?.scrollIntoView?.({block:'nearest',behavior:'smooth'}); }catch(_){}
     }
     function applyPickedColor(hex, opts){
         opts=opts||{};
@@ -11726,7 +11751,7 @@
             s.style.background=c;
             s.title=c;
             if(c==='#ffffff') s.style.boxShadow='0 1px 2px rgba(120,90,60,.12), inset 0 0 0 1px rgba(0,0,0,.12)';
-            s.onclick=()=>{ applyPickedColor(c); };
+            s.onclick=()=>{ applyPickedColor(c); closePlusPop(); };
             box.appendChild(s);
         });
     }
@@ -11766,6 +11791,10 @@
             bar.addEventListener('pointerup',onUp);
             bar.addEventListener('pointercancel',onUp);
         });
+        document.getElementById('subCPlusClose')?.addEventListener('click',e=>{
+            e.stopPropagation();
+            closePlusPop();
+        });
     }
     function makeAddSwatch(target){
         const btn=document.createElement('button');
@@ -11777,6 +11806,10 @@
         btn.innerHTML='<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3.25v9.5M3.25 8h9.5"/></svg>';
         btn.onclick=e=>{
             e.stopPropagation();
+            if(isPlusPopOpen()){
+                closePlusPop();
+                return;
+            }
             openPlusPop(target);
         };
         return btn;
