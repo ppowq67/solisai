@@ -1411,22 +1411,30 @@
 }
 
 .stgAppIcon--claude {
-    background: #1a1512;
+    background: #1F1A17;
 }
 
 .stgAppIcon--claude svg {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
 }
 
 .stgAppIcon--cursor {
-    background: #ffffff;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    background: #14120B;
+    box-shadow: none;
 }
 
 .stgAppIcon--cursor svg {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
+}
+
+.stgAppBadge {
+    flex-shrink: 0;
+    font-size: 11.5px;
+    font-weight: 650;
+    color: rgba(120, 113, 108, 0.95);
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 .stgAppIcon--chatgpt {
