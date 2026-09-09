@@ -2171,14 +2171,24 @@
 
                 <section class="stgPanel" id="stgPanelMcp" data-stg-panel="mcp">
                     <div class="stgMcp">
-                        <p class="stgPanelLead">Copy a client config for Claude, Cursor, or ChatGPT. The hosted Solis MCP server is next. These tools will run against your Solis account once it is live.</p>
+                        <p class="stgPanelLead">Connect Claude, Cursor, or ChatGPT to Solis. Create a token, copy a client config, then ask your agent to clip and improve videos. Renders use your Solis plan quota.</p>
 
                         <div class="stgMcpEndpoint">
                             <div class="stgMcpEndpointLabel">MCP endpoint</div>
                             <div class="stgMcpEndpointRow">
-                                <code class="stgMcpEndpointUrl" id="stgMcpEndpointUrl">https://mcp.solisai.video/mcp</code>
+                                <code class="stgMcpEndpointUrl" id="stgMcpEndpointUrl">https://api.solisai.video/mcp</code>
                                 <button type="button" class="stgAccountBtn" id="stgMcpCopyEndpoint">Copy</button>
                             </div>
+                        </div>
+
+                        <div class="stgMcpEndpoint">
+                            <div class="stgMcpEndpointLabel">MCP token</div>
+                            <div class="stgMcpEndpointRow">
+                                <code class="stgMcpEndpointUrl" id="stgMcpTokenValue">Create a token to connect agents</code>
+                                <button type="button" class="stgAccountBtn" id="stgMcpCreateToken">Create token</button>
+                                <button type="button" class="stgAccountBtn" id="stgMcpCopyToken" hidden>Copy token</button>
+                            </div>
+                            <p class="stgQuotaHint" id="stgMcpTokenHint">Tokens last 90 days. Treat them like a password.</p>
                         </div>
 
                         <div class="stgAppSection">
@@ -2231,7 +2241,7 @@
                                         <div class="stgAppName">process_video</div>
                                         <div class="stgAppDesc">Generate clips from a video URL</div>
                                     </div>
-                                    <span class="stgAppBadge">Planned</span>
+                                    <span class="stgAppBadge stgAppBadge--live">Live</span>
                                 </article>
                                 <article class="stgAppRow is-installed" data-mcp-tool="improve_clip">
                                     <span class="stgAppIcon stgAppIcon--tool" aria-hidden="true">
@@ -2241,7 +2251,7 @@
                                         <div class="stgAppName">improve_clip</div>
                                         <div class="stgAppDesc">Rework a specific clip with a prompt</div>
                                     </div>
-                                    <span class="stgAppBadge">Planned</span>
+                                    <span class="stgAppBadge stgAppBadge--live">Live</span>
                                 </article>
                                 <article class="stgAppRow is-installed" data-mcp-tool="ask_companion">
                                     <span class="stgAppIcon stgAppIcon--tool" aria-hidden="true">
@@ -2251,7 +2261,7 @@
                                         <div class="stgAppName">ask_companion</div>
                                         <div class="stgAppDesc">Get a keep or weak verdict on a clip</div>
                                     </div>
-                                    <span class="stgAppBadge">Planned</span>
+                                    <span class="stgAppBadge stgAppBadge--live">Live</span>
                                 </article>
                                 <article class="stgAppRow is-installed" data-mcp-tool="suggest_recipe">
                                     <span class="stgAppIcon stgAppIcon--tool" aria-hidden="true">
@@ -2261,7 +2271,7 @@
                                         <div class="stgAppName">suggest_recipe</div>
                                         <div class="stgAppDesc">Pick the best template before generating</div>
                                     </div>
-                                    <span class="stgAppBadge">Planned</span>
+                                    <span class="stgAppBadge stgAppBadge--live">Live</span>
                                 </article>
                                 <article class="stgAppRow is-installed" data-mcp-tool="get_job_status">
                                     <span class="stgAppIcon stgAppIcon--tool" aria-hidden="true">
@@ -2271,7 +2281,7 @@
                                         <div class="stgAppName">get_job_status</div>
                                         <div class="stgAppDesc">Check progress on a clip job</div>
                                     </div>
-                                    <span class="stgAppBadge">Planned</span>
+                                    <span class="stgAppBadge stgAppBadge--live">Live</span>
                                 </article>
                                 <article class="stgAppRow is-installed" data-mcp-tool="export_clip">
                                     <span class="stgAppIcon stgAppIcon--tool" aria-hidden="true">
@@ -2281,7 +2291,7 @@
                                         <div class="stgAppName">export_clip</div>
                                         <div class="stgAppDesc">Get a download URL for a finished clip</div>
                                     </div>
-                                    <span class="stgAppBadge">Planned</span>
+                                    <span class="stgAppBadge stgAppBadge--live">Live</span>
                                 </article>
                             </div>
                         </div>
