@@ -1402,7 +1402,16 @@
 }
 
 .stgAppIcon--medal {
-    background: #5B4CFF;
+    background: #0B0B0C;
+    padding: 0;
+    overflow: hidden;
+}
+
+.stgAppIcon--medal img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .stgAppIcon--medal svg {
