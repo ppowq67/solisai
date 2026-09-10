@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Clip Arena: Who leads on clips</title>
+  <meta name="description" content="Solis vs Opus Clip, Vizard, CapCut, Klap, Choppity, Submagic, Munch, and Quso. Ranked by published clip caps." />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/genfavicon-32.png?v=15" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
+  <style>
+    :root {
+      --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --solis: #f97316;
+      --solis-deep: #c2410c;
+      --ink: #18120e;
+      --muted: #9e8878;
+      --soft: #5c5048;
+      --line: rgba(200, 185, 170, 0.4);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --green: #16a34a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background-color: #f5f5f5;
+      background-image: radial-gradient(rgba(0,0,0,0.085) 1px, transparent 1.15px);
+      background-size: 20px 20px;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    img, svg { display: block; max-width: 100%; }
+
+    .navbar-wrapper {
+      width: 100%; z-index: 100; display: flex; flex-direction: column; align-items: center;
+      padding: env(safe-area-inset-top, 0) 28px 0; pointer-events: none;
+    }
+    .navbar { pointer-events: auto; width: 100%; max-width: 1080px; padding: 16px 0; }
+    .navbar-grid {
+      display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 28px; min-height: 44px;
+    }
+    .nav-brand { display: inline-flex; align-items: center; gap: 10px; }
+    .nav-brand-icon { width: 26px; height: 26px; }
+    .nav-logotype {
+      font-family: var(--font-display); font-size: 1.22rem; font-weight: 800; letter-spacing: -0.04em;
+    }
+    .nav-beta {
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+    }
+    .nav-menu { display: flex; gap: 2px; justify-content: center; }
+    .nav-menu a { padding: 8px 12px; font-size: 14px; font-weight: 500; color: #3d342c; }
+    .nav-menu a:hover, .nav-menu a.is-active { color: var(--ink); font-weight: 700; }
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .nav-login { font-size: 13.5px; font-weight: 650; color: #3d342c; padding: 8px 10px; }
+    .nav-cta {
+      padding: 10px 15px; border-radius: 12px; font-size: 13px; font-weight: 700; color: #fff !important;
+      background: linear-gradient(165deg, #ff8a5c, #ff6b35 48%, #f05428);
+      box-shadow: 0 8px 18px rgba(234, 88, 12, 0.22);
+    }
+    .nav-toggle {
+      display: none; width: 40px; height: 40px; border: 0; background: transparent; color: var(--ink);
+      align-items: center; justify-content: center;
+    }
+    .nav-toggle .close-icon { display: none; }
+    .nav-toggle[aria-expanded="true"] .menu-icon { display: none; }
+    .nav-toggle[aria-expanded="true"] .close-icon { display: block; }
+    .nav-mobile {
+      display: none; pointer-events: auto; width: min(100%, 1080px); margin: 0 auto 10px; padding: 10px;
+      border-radius: 20px; background: #fff; border: 1px solid var(--line);
+      box-shadow: 0 16px 40px rgba(120, 80, 40, 0.1); flex-direction: column;
+    }
+    .nav-mobile[hidden] { display: none !important; }
+    .nav-mobile.is-open { display: flex; }
+    .nav-mobile a { padding: 12px 14px; border-radius: 12px; font-weight: 650; }
+    .nav-mobile .divider { height: 1px; background: rgba(0,0,0,0.06); margin: 6px 4px; }
+    .nav-mobile .mob-signup {
+      background: linear-gradient(165deg, #ff8a5c, #f05428); color: #fff !important; text-align: center;
+    }
+    @media (max-width: 900px) {
+      .nav-menu { display: none; }
+      .nav-toggle { display: inline-flex; }
+      .navbar-grid { grid-template-columns: 1fr auto auto; gap: 10px; }
+    }
+    @media (max-width: 640px) {
+      .nav-actions { display: none; }
+      .navbar-wrapper { padding-left: 16px; padding-right: 16px; }
+    }
+
+    main { width: min(920px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 88px; }
+
+    .hero {
+      text-align: center; padding: 36px 0 28px;
+    }
+    .hero-kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 750; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--solis-deep); margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-weight: 800; letter-spacing: -0.05em; line-height: 0.98;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #f97316, #d65a31, #ff8c42);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero p {
+      margin: 14px auto 0; max-width: 34ch;
+      font-size: 16px; line-height: 1.5; color: #5c6573; font-weight: 500;
+    }
+
+    .controls {
+      display: flex; justify-content: center; gap: 10px; margin: 22px 0 28px; flex-wrap: wrap;
+    }
+    .seg {
+      display: inline-flex; padding: 4px; border-radius: 999px;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 28px rgba(120, 80, 40, 0.06);
+    }
+    .seg button {
+      border: 0; background: transparent;
+      padding: 9px 16px; border-radius: 999px;
+      font-size: 13px; font-weight: 700; color: var(--muted);
+    }
+    .seg button.is-on {
+      color: #fff;
+      background: linear-gradient(165deg, #ff8a5c, #f05428);
+      box-shadow: 0 4px 14px rgba(234, 88, 12, 0.24);
+    }
+
+    .glass {
+      border-radius: 28px;
+      background: linear-gradient(165deg, rgba(255,255,255,0.94), rgba(255,248,240,0.82));
+      border: 1px solid rgba(255,255,255,0.95);
+      box-shadow:
+        0 22px 50px rgba(120, 80, 40, 0.09),
+        inset 0 1px 0 rgba(255,255,255,0.95);
+      backdrop-filter: blur(22px) saturate(160%);
+      overflow: hidden;
+    }
+
+    .winner {
+      display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center;
+      padding: 22px 24px; margin-bottom: 14px;
+      animation: rise 0.55s var(--ease) both;
+    }
+    .winner .badge {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; color: var(--solis-deep);
+      background: rgba(249, 115, 22, 0.12);
+      padding: 8px 10px; border-radius: 999px;
+    }
+    .winner .who { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .winner .who img, .winner .who .mark {
+      width: 44px; height: 44px; border-radius: 12px; object-fit: contain;
+      background: #fff; border: 1px solid var(--line); flex-shrink: 0;
+    }
+    .winner .name {
+      font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; letter-spacing: -0.035em;
+    }
+    .winner .sub { font-size: 13.5px; color: var(--soft); font-weight: 500; margin-top: 3px; }
+    .winner .big {
+      text-align: right;
+      font-family: var(--font-display); font-size: 2.1rem; font-weight: 800;
+      letter-spacing: -0.045em; color: var(--solis-deep); line-height: 1;
+    }
+    .winner .big small {
+      display: block; margin-top: 4px;
+      font-family: var(--font-body); font-size: 12px; font-weight: 650; color: var(--muted);
+    }
+    @media (max-width: 640px) {
+      .winner { grid-template-columns: 1fr; text-align: left; }
+      .winner .big { text-align: left; }
+    }
+
+    .arena { margin-bottom: 14px; }
+    .arena-head {
+      display: grid; grid-template-columns: 52px minmax(140px, 1.1fr) 1.4fr 88px;
+      gap: 12px; padding: 14px 20px 10px;
+      font-size: 11px; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+    }
+    @media (max-width: 700px) {
+      .arena-head { display: none; }
+    }
+    .row {
+      display: grid; grid-template-columns: 52px minmax(140px, 1.1fr) 1.4fr 88px;
+      gap: 12px; align-items: center;
+      padding: 14px 20px;
+      border-top: 1px solid rgba(200, 185, 170, 0.28);
+      transition: background 0.15s ease;
+      animation: rise 0.5s var(--ease) both;
+    }
+    .row:hover { background: rgba(255,255,255,0.45); }
+    .row.is-1 {
+      background: linear-gradient(90deg, rgba(255,241,224,0.95), rgba(255,255,255,0.2));
+    }
+    .row.is-solis:not(.is-1) { background: rgba(255, 247, 237, 0.45); }
+    .row .rank {
+      font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--muted);
+    }
+    .row.is-1 .rank { color: var(--solis-deep); }
+    .row .tool { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .row .tool img, .row .tool .mark {
+      width: 32px; height: 32px; border-radius: 9px; object-fit: contain;
+      background: #fff; border: 1px solid var(--line); flex-shrink: 0;
+    }
+    .row .nm {
+      font-family: var(--font-display); font-size: 14.5px; font-weight: 750; letter-spacing: -0.025em;
+    }
+    .row .pl { font-size: 12px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+    .bar-wrap { min-width: 0; }
+    .bar {
+      height: 18px; border-radius: 999px; background: rgba(24, 18, 14, 0.06);
+      overflow: hidden; position: relative;
+    }
+    .bar > i {
+      display: block; height: 100%; width: 0; border-radius: inherit;
+      background: linear-gradient(90deg, #ffb07a, #f97316 55%, #ea580c);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+      transition: width 0.9s var(--ease);
+    }
+    .row:not(.is-solis) .bar > i {
+      background: linear-gradient(90deg, rgba(120, 100, 85, 0.25), rgba(80, 65, 55, 0.55));
+    }
+    .row .clips {
+      text-align: right;
+      font-family: var(--font-mono); font-size: 14px; font-weight: 700;
+    }
+    .row .price {
+      text-align: right; font-size: 11.5px; color: var(--muted); font-weight: 600; margin-top: 2px;
+    }
+    @media (max-width: 700px) {
+      .row {
+        grid-template-columns: 36px 1fr auto;
+        grid-template-areas:
+          "rank tool clips"
+          "bar bar bar";
+        gap: 8px 10px; padding: 14px 16px;
+      }
+      .row .rank { grid-area: rank; }
+      .row .tool { grid-area: tool; }
+      .row .end { grid-area: clips; }
+      .bar-wrap { grid-area: bar; }
+    }
+
+    .section-label {
+      margin: 28px 0 12px;
+      font-family: var(--font-display);
+      font-size: 1.15rem; font-weight: 800; letter-spacing: -0.03em;
+    }
+    .section-label span {
+      display: block; margin-top: 4px;
+      font-family: var(--font-body); font-size: 13.5px; font-weight: 500; color: var(--soft);
+    }
+
+    .field {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    }
+    @media (max-width: 800px) { .field { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px) { .field { grid-template-columns: 1fr; } }
+    .chip {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 14px; border-radius: 18px;
+      transition: transform 0.25s var(--ease);
+      animation: rise 0.55s var(--ease) both;
+    }
+    .chip:hover { transform: translateY(-2px); }
+    .chip img, .chip .mark {
+      width: 28px; height: 28px; border-radius: 8px; object-fit: contain;
+      background: #fff; border: 1px solid var(--line); flex-shrink: 0;
+    }
+    .chip .nm { font-size: 13.5px; font-weight: 750; letter-spacing: -0.02em; }
+    .chip .meta { font-size: 11.5px; color: var(--muted); font-weight: 500; margin-top: 2px; line-height: 1.35; }
+    .chip .pr {
+      margin-left: auto; font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; white-space: nowrap;
+    }
+
+    .pareto-panel { margin-top: 14px; }
+    .pareto-panel .head { padding: 20px 22px 0; }
+    .pareto-panel .head h2 {
+      font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; letter-spacing: -0.03em;
+    }
+    .pareto-panel .head p {
+      margin-top: 5px; font-size: 13.5px; color: var(--soft); font-weight: 500; max-width: 46ch;
+    }
+    .pareto-box { height: 340px; padding: 8px 16px 20px; position: relative; }
+    @media (max-width: 700px) { .pareto-box { height: 280px; } }
+
+    .note {
+      text-align: center; font-size: 12.5px; color: var(--muted);
+      line-height: 1.55; margin: 26px 8px; font-weight: 500;
+    }
+    .footer-cta { text-align: center; }
+    .footer-cta a {
+      display: inline-flex; padding: 14px 24px; border-radius: 12px;
+      font-family: var(--font-display); font-weight: 750; color: #fff; font-size: 14.5px;
+      background: linear-gradient(165deg, #ff8a5c, #f05428);
+      box-shadow: 0 12px 28px rgba(234, 88, 12, 0.28);
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar-wrapper">
+    <nav class="navbar" id="_nav" aria-label="Primary">
+      <div class="navbar-grid">
+        <a href="/" class="nav-brand" aria-label="Solis AI home">
+          <svg class="nav-brand-icon" viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="12" fill="#ea580c" />
+            <ellipse rx="44" ry="18" cx="50" cy="50" stroke="#ea580c" stroke-width="6" transform="rotate(45 50 50)" fill="none" />
+            <ellipse rx="44" ry="18" cx="50" cy="50" stroke="#ea580c" stroke-width="6" transform="rotate(-45 50 50)" fill="none" />
+          </svg>
+          <span class="nav-logotype">Solis AI</span>
+          <span class="nav-beta">Beta</span>
+        </a>
+        <div class="nav-menu">
+          <a href="/#_features">Features</a>
+          <a href="/#_how">How It Works</a>
+          <a href="/#_faq">FAQ</a>
+          <a href="/premium">Pricing</a>
+          <a href="/compare.html" class="is-active" aria-current="page">Compare</a>
+        </div>
+        <div class="nav-actions">
+          <a href="/?login=1" class="nav-login" data-open-auth data-auth-guest>Login</a>
+          <a href="/?login=1" class="nav-cta" data-open-auth data-auth-guest><span>Start for free</span></a>
+          <a href="/dashboard" class="nav-cta" data-auth-user hidden><span>Go to Dashboard</span></a>
+        </div>
+        <button type="button" class="nav-toggle" id="_toggle" aria-label="Open menu" aria-expanded="false" aria-controls="_mobile">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" width="20" height="20"><line x1="5" y1="7" x2="19" y2="7"/><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="17" x2="19" y2="17"/></svg>
+          <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </nav>
+    <div class="nav-mobile" id="_mobile" role="menu" hidden>
+      <a href="/#_features" role="menuitem">Features</a>
+      <a href="/#_how" role="menuitem">How It Works</a>
+      <a href="/#_faq" role="menuitem">FAQ</a>
+      <a href="/premium" role="menuitem">Pricing</a>
+      <a href="/compare.html" role="menuitem" aria-current="page">Compare</a>
+      <div class="divider"></div>
+      <a href="/?login=1" role="menuitem" data-open-auth data-auth-guest>Login</a>
+      <a href="/?login=1" role="menuitem" class="mob-signup" data-open-auth data-auth-guest>Start for free</a>
+      <a href="/dashboard" role="menuitem" class="mob-signup" data-auth-user hidden>Go to Dashboard</a>
+    </div>
+  </div>
+
+  <main>
+    <header class="hero">
+      <div class="hero-kicker">Clip Arena</div>
+      <h1>Who’s <em>leading</em></h1>
+      <p>Published monthly clip caps. One board. Real icons.</p>
+    </header>
+
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Billing">
+        <button type="button" class="is-on" data-billing="month">Monthly</button>
+        <button type="button" data-billing="year">Annual</button>
+      </div>
+    </div>
+
+    <div class="winner glass" id="winner"></div>
+
+    <section class="arena glass" aria-label="Clip leaderboard">
+      <div class="arena-head">
+        <span>Rank</span>
+        <span>Plan</span>
+        <span>Clips / month</span>
+        <span style="text-align:right">Output</span>
+      </div>
+      <div id="board"></div>
+    </section>
+
+    <div class="section-label">
+      Also competing
+      <span>They don’t publish a clip cap. Shown with what they actually meter.</span>
+    </div>
+    <div class="field" id="field"></div>
+
+    <section class="pareto-panel glass">
+      <div class="head">
+        <h2>Clips vs price</h2>
+        <p>Green line = more clips without paying more.</p>
+      </div>
+      <div class="pareto-box"><canvas id="paretoChart"></canvas></div>
+    </section>
+
+    <p class="note">
+      Clip ranks use published clip caps (Solis + Klap). Opus, Vizard, Choppity, Quso, and Munch meter minutes or credits.
+      CapCut has no clip quota. Submagic meters videos. Sep 2026 public pricing.
+    </p>
+    <div class="footer-cta">
+      <a href="/premium">See Solis pricing</a>
+    </div>
+  </main>
+
+  <script>
+  (function () {
+    const SOLIS_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#fff"/><circle cx="50" cy="50" r="12" fill="#ea580c"/><ellipse rx="44" ry="18" cx="50" cy="50" stroke="#ea580c" stroke-width="8" transform="rotate(45 50 50)" fill="none"/><ellipse rx="44" ry="18" cx="50" cy="50" stroke="#ea580c" stroke-width="8" transform="rotate(-45 50 50)" fill="none"/></svg>';
+    const MARK = `<svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="12" fill="#ea580c"/><ellipse rx="44" ry="18" cx="50" cy="50" stroke="#ea580c" stroke-width="8" transform="rotate(45 50 50)" fill="none"/><ellipse rx="44" ry="18" cx="50" cy="50" stroke="#ea580c" stroke-width="8" transform="rotate(-45 50 50)" fill="none"/></svg>`;
+
+    const CLIP = [
+      { id: 'solis-elite', name: 'Solis AI', plan: 'Elite', month: 39.99, year: 399.9 / 12, clips: 2000, detail: '400 uploads', color: '#ea580c', solis: true, domain: 'solisai.video' },
+      { id: 'solis-prime', name: 'Solis AI', plan: 'Prime', month: 14.39, year: 239.9 / 12, clips: 1000, detail: '200 uploads', color: '#ff6b35', solis: true, domain: 'solisai.video' },
+      { id: 'klap-pp', name: 'Klap', plan: 'Pro+', month: 189, year: 94, clips: 1000, detail: '1,000 clips', color: '#94a3b8', domain: 'klap.app' },
+      { id: 'klap-p', name: 'Klap', plan: 'Pro', month: 79, year: 39, clips: 300, detail: '300 clips', color: '#94a3b8', domain: 'klap.app' },
+      { id: 'solis-basic', name: 'Solis AI', plan: 'Basic', month: 5.99, year: 99.9 / 12, clips: 225, detail: '75 uploads', color: '#fb923c', solis: true, domain: 'solisai.video' },
+      { id: 'klap-b', name: 'Klap', plan: 'Basic', month: 29, year: 14, clips: 100, detail: '100 clips', color: '#94a3b8', domain: 'klap.app' },
+    ];
+
+    const FIELD = [
+      { name: 'Opus Clip', plan: 'Starter', month: 15, year: 15, meters: '150 processing minutes', domain: 'opus.pro' },
+      { name: 'Opus Clip', plan: 'Pro', month: 29, year: 14.5, meters: '300 processing minutes', domain: 'opus.pro' },
+      { name: 'Vizard', plan: 'Creator', month: 29, year: 14.5, meters: '600 credits · 1 = 1 min', domain: 'vizard.ai' },
+      { name: 'CapCut', plan: 'Pro', month: 19.99, year: 15, meters: 'No published clip quota', domain: 'capcut.com' },
+      { name: 'Choppity', plan: 'Starter', month: 20, year: 14, meters: '3 AI analysis hours', domain: 'choppity.com' },
+      { name: 'Choppity', plan: 'Creator', month: 32, year: 22.4, meters: '5 AI analysis hours', domain: 'choppity.com' },
+      { name: 'Quso', plan: 'Lite', month: 29, year: 19, meters: '~200 credits', domain: 'quso.ai' },
+      { name: 'Submagic', plan: 'Starter', month: 38, year: 19, meters: '15 videos / mo', domain: 'submagic.co' },
+      { name: 'Munch', plan: 'Pro', month: 58, year: 49, meters: '~250 uploaded minutes', domain: 'getmunch.com' },
+    ];
+
+    let billing = 'month';
+    let pareto = null;
+    const iconCache = Object.create(null);
+
+    function fav(domain) { return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`; }
+    function icon(e) {
+      if (e.solis) return MARK;
+      return `<img src="${fav(e.domain)}" alt="" loading="lazy" onerror="this.style.opacity=.35" />`;
+    }
+    function price(e) { return billing === 'year' ? e.year : e.month; }
+    function money(n) { return '$' + Number(n).toFixed(2); }
+    function fmt(n) { return Number(n).toLocaleString(); }
+    function short(e) { return e.name.replace(' AI', '').split(' ')[0] + ' ' + e.plan; }
+
+    function loadRaw(e) {
+      const key = e.solis ? 'solis' : e.domain;
+      if (iconCache[key] !== undefined) return Promise.resolve(iconCache[key]);
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => { iconCache[key] = img; resolve(img); };
+        img.onerror = () => { iconCache[key] = null; resolve(null); };
+        img.src = e.solis ? 'data:image/svg+xml,' + encodeURIComponent(SOLIS_SVG) : fav(e.domain);
+      });
+    }
+
+    function marker(e, size) {
+      size = size || 20;
+      const raw = iconCache[e.solis ? 'solis' : e.domain];
+      const c = document.createElement('canvas');
+      c.width = size; c.height = size;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#fff';
+      if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(0, 0, size, size, 5); ctx.fill(); }
+      else ctx.fillRect(0, 0, size, size);
+      ctx.strokeStyle = 'rgba(24,18,14,0.12)'; ctx.stroke();
+      if (raw) ctx.drawImage(raw, 2, 2, size - 4, size - 4);
+      else {
+        ctx.fillStyle = e.solis ? '#ea580c' : '#a8a29e';
+        ctx.beginPath(); ctx.arc(size / 2, size / 2, 3.5, 0, Math.PI * 2); ctx.fill();
+      }
+      return c;
+    }
+
+    function ranked() {
+      return CLIP.map((e) => ({ ...e, price: price(e) })).sort((a, b) => b.clips - a.clips || a.price - b.price);
+    }
+
+    function paintWinner(rows) {
+      const top = rows[0];
+      document.getElementById('winner').innerHTML =
+        `<div class="badge">#1 LEAD</div>`
+        + `<div class="who">${icon(top)}<div><div class="name">${top.name} ${top.plan}</div><div class="sub">${top.detail} · ${money(top.price)}/mo</div></div></div>`
+        + `<div class="big">${fmt(top.clips)}<small>clips / month</small></div>`;
+    }
+
+    function paintBoard(rows) {
+      const max = Math.max(...rows.map((r) => r.clips), 1);
+      const el = document.getElementById('board');
+      el.innerHTML = rows.map((r, i) => {
+        const pct = Math.max(6, Math.round((r.clips / max) * 100));
+        return (
+          `<div class="row${r.solis ? ' is-solis' : ''}${i === 0 ? ' is-1' : ''}" style="animation-delay:${0.04 + i * 0.04}s">`
+          + `<div class="rank">${String(i + 1).padStart(2, '0')}</div>`
+          + `<div class="tool">${icon(r)}<div><div class="nm">${r.name}</div><div class="pl">${r.plan}</div></div></div>`
+          + `<div class="bar-wrap"><div class="bar"><i data-w="${pct}%"></i></div></div>`
+          + `<div class="end"><div class="clips">${fmt(r.clips)}</div><div class="price">${money(r.price)}/mo</div></div>`
+          + `</div>`
+        );
+      }).join('');
+      requestAnimationFrame(() => {
+        el.querySelectorAll('.bar > i').forEach((bar) => {
+          bar.style.width = '0%';
+          requestAnimationFrame(() => { bar.style.width = bar.getAttribute('data-w'); });
+        });
+      });
+    }
+
+    function paintField() {
+      document.getElementById('field').innerHTML = FIELD.map((o, i) => (
+        `<article class="chip glass" style="animation-delay:${0.05 + i * 0.03}s">`
+        + icon(o)
+        + `<div><div class="nm">${o.name}</div><div class="meta">${o.plan} · ${o.meters}</div></div>`
+        + `<div class="pr">${money(price(o))}</div>`
+        + `</article>`
+      )).join('');
+    }
+
+    function paintPareto(rows) {
+      if (!window.Chart) return;
+      const sorted = [...rows].sort((a, b) => a.price - b.price || b.clips - a.clips);
+      const frontier = [];
+      let best = -Infinity;
+      sorted.forEach((r) => { if (r.clips > best) { frontier.push(r); best = r.clips; } });
+      const frontIds = new Set(frontier.map((r) => r.id));
+      const rest = rows.filter((r) => !frontIds.has(r.id));
+      const toPt = (r) => ({ x: r.price, y: r.clips, _e: r });
+
+      Promise.all(rows.map(loadRaw)).then(() => {
+        if (pareto) { pareto.destroy(); pareto = null; }
+        const styles = (list) => list.map((r) => marker(r, 20));
+        pareto = new Chart(document.getElementById('paretoChart'), {
+          type: 'scatter',
+          data: {
+            datasets: [
+              { type: 'line', data: frontier.map(toPt), borderColor: '#16a34a', borderWidth: 3, pointRadius: 0, tension: 0.18, order: 1 },
+              { data: frontier.map(toPt), pointStyle: styles(frontier), pointRadius: 10, pointHoverRadius: 12, backgroundColor: 'transparent', borderColor: 'transparent', order: 0 },
+              { data: rest.map(toPt), pointStyle: styles(rest), pointRadius: 8, pointHoverRadius: 10, backgroundColor: 'transparent', borderColor: 'transparent', order: 2 },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: { top: 16, right: 24 } },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: 'rgba(24,18,14,0.94)',
+                titleFont: { family: 'Plus Jakarta Sans', weight: '700', size: 13 },
+                bodyFont: { family: 'DM Sans', size: 12 },
+                padding: 12, cornerRadius: 10,
+                callbacks: {
+                  title: (items) => { const e = items[0].raw && items[0].raw._e; return e ? e.name + ' ' + e.plan : ''; },
+                  label: (ctx) => {
+                    const e = ctx.raw && ctx.raw._e;
+                    if (!e) return '';
+                    return `${fmt(e.clips)} clips · ${money(e.price)}/mo` + (frontIds.has(e.id) ? ' · frontier' : '');
+                  },
+                },
+              },
+            },
+            scales: {
+              x: {
+                title: { display: true, text: 'Price / month', font: { family: 'DM Sans', weight: '600', size: 12 }, color: '#5c5048' },
+                grid: { color: 'rgba(24,18,14,0.06)' },
+                ticks: { callback: (v) => '$' + v, font: { family: 'DM Sans', size: 11 }, color: '#9e8878' },
+              },
+              y: {
+                beginAtZero: true,
+                title: { display: true, text: 'Clips / month', font: { family: 'DM Sans', weight: '600', size: 12 }, color: '#5c5048' },
+                grid: { color: 'rgba(24,18,14,0.06)' },
+                ticks: { font: { family: 'DM Sans', size: 11 }, color: '#9e8878' },
+              },
+            },
+          },
+          plugins: [{
+            id: 'labels',
+            afterDatasetsDraw(chart) {
+              const { ctx } = chart;
+              const meta = chart.getDatasetMeta(1);
+              ctx.save();
+              ctx.font = '700 11px "Plus Jakarta Sans", system-ui';
+              ctx.fillStyle = '#18120e';
+              frontier.forEach((r, i) => {
+                const pt = meta.data[i];
+                if (!pt) return;
+                const { x, y } = pt.getProps(['x', 'y'], true);
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(short(r), x + 12, y - 7);
+              });
+              ctx.restore();
+            },
+          }],
+        });
+      });
+    }
+
+    function refresh() {
+      const rows = ranked();
+      paintWinner(rows);
+      paintBoard(rows);
+      paintField();
+      paintPareto(rows);
+    }
+
+    document.querySelectorAll('[data-billing]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        billing = btn.getAttribute('data-billing');
+        document.querySelectorAll('[data-billing]').forEach((b) => b.classList.toggle('is-on', b === btn));
+        refresh();
+      });
+    });
+
+    const toggle = document.getElementById('_toggle');
+    const mobile = document.getElementById('_mobile');
+    if (toggle && mobile) {
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
+        mobile.hidden = open;
+        mobile.classList.toggle('is-open', !open);
+      });
+    }
+
+    try {
+      const host = location.hostname;
+      const local = host === 'localhost' || host === '127.0.0.1';
+      const api = local ? `${location.protocol}//${host}:5500/api` : 'https://api.solisai.video/api';
+      fetch(api + '/auth/check', { credentials: 'include' })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => {
+          if (!(d && d.authenticated && d.user)) return;
+          document.querySelectorAll('[data-auth-guest]').forEach((el) => { el.hidden = true; });
+          document.querySelectorAll('[data-auth-user]').forEach((el) => { el.hidden = false; });
+        })
+        .catch(() => {});
+    } catch (_) {}
+
+    function boot() {
+      if (window.Chart) {
+        Chart.defaults.font.family = "'DM Sans', system-ui";
+        Chart.defaults.color = '#9e8878';
+      }
+      refresh();
+    }
+    boot();
+    if (!window.Chart) {
+      const t = setInterval(() => {
+        if (!window.Chart) return;
+        clearInterval(t);
+        boot();
+      }, 40);
+      setTimeout(() => clearInterval(t), 3000);
+    }
+  })();
+  </script>
+</body>
+</html>

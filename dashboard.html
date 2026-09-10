@@ -66,8 +66,9 @@
     <script src="/js/i_dq/profile-notifications.js?t=20260826163000"></script>
     <script src="/js/s_new/qwsqa.js?v=7"></script>
     <script src="/js/s_new/qwe.js?v=23"></script>
-    <link rel="stylesheet" href="/style/ss/stg-modal.css?v=81">
-    <script src="/js/s_new/stg.js?v=73"></script>
+    <link rel="stylesheet" href="/style/ss/stg-modal.css?v=82">
+    <link rel="stylesheet" href="/style/ss/stg-plan-refresh.css?v=7">
+    <script src="/js/s_new/stg.js?v=74"></script>
     <script src="/js/i_dq/video-generation-hook.js?v=1"></script>
     <script src="/js/ui/progress-ui.js?v=2"></script>
     <script src="/js/ui/generation-progress-spinner.js?v=82"></script>
@@ -83,7 +84,7 @@
     <script src="/js/payment/portal-manager.js?v=7"></script>
     <script src="/js/payment/payment-success.js?v=2"></script>
     <script src="/js/payment/platform-connections.js?v=7"></script>
-    <script src="/js/ui/plan-selector.js?v=77"></script>
+    <script src="/js/ui/plan-selector.js?v=81"></script>
     <script src="/js/core/video-preview-system.js?v=2"></script>
     <script src="/js/s_new/clip-card.js?v=29"></script>
     <script src="/js/s.js?v=354"></script>
@@ -1422,8 +1423,16 @@
     <div class="stgShell">
         <aside class="stgNav" aria-label="Settings sections">
             <div class="stgNavHead">
-                <h2 class="stgNavTitle">Settings</h2>
-                <p class="stgNavSub">Account &amp; usage</p>
+                <button type="button" class="stgNavProfile" id="stgNavProfile" data-stg-panel="profile" aria-label="Open profile">
+                    <span class="stgNavProfileAvatar" id="stgNavProfileAvatar" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </span>
+                    <span class="stgNavProfileMeta">
+                        <span class="stgNavProfileName" id="stgNavProfileName">Guest User</span>
+                        <span class="stgNavProfileEmail" id="stgNavProfileEmail">unknown@email.com</span>
+                    </span>
+                    <svg class="stgNavProfileChevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
             </div>
             <div class="stgMobileHero" id="stgMobileHero" aria-hidden="true">
                 <div class="stgMobileHeroInner" id="stgMobileHeroInner"></div>
@@ -4776,7 +4785,7 @@
                                 <div class="plan-effort-mode-row plan-effort-mode-row--multi" id="planMultiTaskRow" data-on="0">
                                     <div class="plan-effort-mode-copy">
                                         <span class="plan-effort-mode-title" id="planMultiTaskTitle">Multi Task</span>
-                                        <span class="plan-effort-mode-hint is-collapsed" id="planMultiTaskHint">Up to 10 Tasks in one go on Prime & Elite</span>
+                                        <span class="plan-effort-mode-hint is-collapsed" id="planMultiTaskHint">Up to 10 Tasks in one go</span>
                                     </div>
                                     <div class="plan-effort-advanced-switch">
                                         <button
@@ -4845,7 +4854,7 @@
                             </div>
                             <div class="plan-selector-popover-stat">
                                 <div class="plan-selector-popover-count" id="planPopoverCount">—</div>
-                                <p class="plan-selector-popover-kicker" id="planPopoverKicker">uploads left</p>
+                                <p class="plan-selector-popover-kicker" id="planPopoverKicker">remaining</p>
                             </div>
                             <div class="plan-selector-progress" aria-hidden="true">
                                 <div class="plan-selector-progress-fill" id="planPopoverProgress"></div>

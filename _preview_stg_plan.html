@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Solis UI live preview — stgModal + plan selector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;550;600;700;750;800&family=Outfit:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style/ss/clips.css" />
+  <link rel="stylesheet" href="/style/ss/stg-modal.css" />
+  <link rel="stylesheet" href="/style/ss/stg-plan-refresh.css?v=7" />
+  <style>
+    :root {
+      --clips-text: #1c1917;
+      --clips-text-muted: rgba(100, 92, 84, 0.72);
+      --text-dark: #1c1917;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      color: #1c1917;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(255, 180, 140, 0.35), transparent 55%),
+        radial-gradient(900px 500px at 90% 0%, rgba(255, 220, 180, 0.4), transparent 50%),
+        linear-gradient(180deg, #f7f3ee 0%, #efe8e0 45%, #e8e0d6 100%);
+    }
+    .preview-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .preview-bar h1 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+      flex: 1;
+      min-width: 160px;
+    }
+    .preview-bar button, .preview-bar a {
+      appearance: none;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #fff;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font: 650 12.5px/1 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      color: #1c1917;
+      text-decoration: none;
+      transition: background 0.18s ease, box-shadow 0.22s ease, filter 0.18s ease, border-color 0.18s ease;
+    }
+    .preview-bar button:hover, .preview-bar a:hover {
+      border-color: rgba(255,107,53,0.35);
+      box-shadow: 0 0 0 3px rgba(255,107,53,0.14);
+      filter: brightness(1.02);
+    }
+    .preview-bar button.is-on {
+      background: linear-gradient(145deg, #fff7ed, #ffedd5);
+      border-color: rgba(255,107,53,0.4);
+      color: #c2410c;
+    }
+    .stage {
+      display: grid;
+      gap: 28px;
+      padding: 28px 20px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .card {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 12px 40px rgba(80,55,35,0.08);
+    }
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+    }
+    .card p {
+      margin: 0 0 18px;
+      font-size: 12.5px;
+      color: rgba(120,113,108,0.85);
+    }
+    .url-mock {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 999px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.75), rgba(255,248,240,0.5));
+      border: 1px solid rgba(255,255,255,0.85);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), 0 4px 16px rgba(120,90,60,0.06);
+      position: relative;
+      z-index: 5;
+    }
+    .url-mock-field {
+      flex: 1;
+      height: 44px;
+      border-radius: 999px;
+      border: 0;
+      padding: 0 16px;
+      background: rgba(255,255,255,0.55);
+      font: 550 14px/1 'Plus Jakarta Sans', sans-serif;
+      color: rgba(80,72,64,0.7);
+    }
+    .go {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 0; background: linear-gradient(145deg, #ff7a50, #e85a2a);
+      color: #fff; display: grid; place-items: center; cursor: pointer;
+      box-shadow: 0 6px 16px rgba(232,90,42,0.3);
+      transition: filter 0.18s ease, box-shadow 0.22s ease;
+    }
+    .go:hover { filter: brightness(1.06); box-shadow: 0 0 0 3px rgba(255,122,80,0.2), 0 8px 20px rgba(232,90,42,0.35); }
+
+    .stgBackdrop.preview-open {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+    }
+    .stgModal.preview-open {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      transform: translate(-50%, -50%) scale(1) !important;
+    }
+    body.is-mobile-preview .stgModal {
+      width: min(390px, calc(100vw - 24px)) !important;
+      height: min(720px, calc(100vh - 96px)) !important;
+      max-height: min(720px, calc(100vh - 96px)) !important;
+    }
+    body.is-mobile-preview .stgModal.preview-open {
+      data-stg-view: home;
+    }
+    .hint {
+      font-size: 11.5px;
+      color: rgba(120,113,108,0.75);
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-bar">
+    <h1>Live preview · stgModal + plan selector</h1>
+    <button type="button" id="btnOpenStg" class="is-on">Open settings</button>
+    <button type="button" id="btnCloseStg">Close settings</button>
+    <button type="button" id="btnTogglePlan">Toggle plan popover</button>
+    <button type="button" id="btnMobile">Mobile frame</button>
+    <a href="/dashboard.html">Open full dashboard</a>
+  </div>
+
+  <div class="stage">
+    <section class="card">
+      <h2>Plan selector</h2>
+      <p>Click the pill — open uses scale + blur, hovers use glow/brightness (no translateY).</p>
+      <div class="url-mock">
+        <input class="url-mock-field" value="https://www.youtube.com/watch?v=…" readonly />
+        <div class="plan-selector-wrap" id="planSelectorWrap">
+          <button type="button" class="plan-selector-btn" id="planSelectorBtn" aria-expanded="false" aria-haspopup="true">
+            <span class="plan-selector-live">
+              <span class="plan-selector-label">Free Plan</span>
+              <span class="plan-selector-effort" data-effort="auto">Auto</span>
+              <svg class="plan-selector-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="plan-selector-popover" id="planSelectorPopover" role="dialog" aria-label="Plan usage" hidden>
+            <div class="plan-selector-popover-panel">
+              <div class="plan-popover-live">
+                <p class="plan-selector-popover-tier" id="planPopoverTier">Free Plan</p>
+                <div class="plan-effort-slot">
+                  <div class="plan-effort-mode-row" data-mode="auto">
+                    <div class="plan-effort-mode-copy">
+                      <span class="plan-effort-mode-title">Auto</span>
+                      <span class="plan-effort-mode-hint">Balanced quality and speed</span>
+                    </div>
+                    <div class="plan-effort-advanced-switch">
+                      <button type="button" class="stgToggle is-on" role="switch" aria-checked="true">
+                        <span class="stgToggleKnob" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="plan-effort-mode-row plan-effort-mode-row--multi" data-on="0">
+                    <div class="plan-effort-mode-copy">
+                      <span class="plan-effort-mode-title">Multi Task</span>
+                      <span class="plan-effort-mode-hint is-collapsed">Up to 10 Tasks in one go</span>
+                    </div>
+                    <div class="plan-effort-advanced-switch">
+                      <button type="button" class="stgToggle" role="switch" aria-checked="false" aria-label="Multi Task">
+                        <span class="stgToggleKnob" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="plan-selector-popover-stat">
+                  <div class="plan-selector-popover-count is-animating" id="planPopoverCount">
+                    <span class="plan-count-remaining">12</span>
+                    <span class="plan-count-sep" aria-hidden="true">
+                      <span class="plan-count-slash">/</span>
+                      <span class="plan-count-max">15</span>
+                    </span>
+                  </div>
+                  <p class="plan-selector-popover-kicker">remaining</p>
+                </div>
+                <div class="plan-selector-progress" aria-hidden="true">
+                  <div class="plan-selector-progress-fill" style="width: 20%"></div>
+                </div>
+                <p class="plan-selector-popover-reset">Limits reset in 18 days</p>
+                <a class="plan-selector-upgrade" href="/premium.html">
+                  <svg class="plan-selector-upgrade-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3z"/></svg>
+                  <span>Upgrade plan</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="go" aria-label="Go">→</button>
+      </div>
+      <p class="hint">Hover the pill, mode rows, and Upgrade — glow / brightness only.</p>
+    </section>
+  </div>
+
+  <div class="stgBackdrop" id="stgBackdrop"></div>
+  <div class="stgModal" id="stgModal" role="dialog" aria-modal="true" data-stg-view="home">
+    <div class="stgShell">
+      <aside class="stgNav" aria-label="Settings sections">
+        <div class="stgNavHead">
+          <button type="button" class="stgNavProfile is-active" id="stgNavProfile" data-stg-panel="profile">
+            <span class="stgNavProfileAvatar" id="stgNavProfileAvatar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </span>
+            <span class="stgNavProfileMeta">
+              <span class="stgNavProfileName">Alex Rivera</span>
+              <span class="stgNavProfileEmail">alex@solis.ai</span>
+            </span>
+            <svg class="stgNavProfileChevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="stgNavSearchWrap">
+          <svg class="stgNavSearchIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="search" class="stgNavSearch" placeholder="Search" />
+        </div>
+        <div class="stgNavItems">
+          <div class="stgNavGroup">
+            <div class="stgNavGroupLabel">Settings</div>
+            <button type="button" class="stgNavBtn" data-stg-panel="profile" hidden><span>Profile</span></button>
+            <button type="button" class="stgNavBtn is-active" data-stg-panel="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg><span>Account</span></button>
+            <button type="button" class="stgNavBtn" data-stg-panel="privacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 3l7 4v5c0 5-3 8-7 9-4-1-7-4-7-9V7l7-4z"/></svg><span>Privacy</span></button>
+            <button type="button" class="stgNavBtn" data-stg-panel="billing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span>Billing/Usage</span></button>
+            <button type="button" class="stgNavBtn" data-stg-panel="themes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 3a9 9 0 1 0 9 9h-9V3z"/></svg><span>Themes</span></button>
+            <button type="button" class="stgNavBtn" data-stg-panel="support"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Support</span></button>
+          </div>
+          <div class="stgNavGroup">
+            <div class="stgNavGroupLabel">MCP &amp; Tools</div>
+            <button type="button" class="stgNavBtn" data-stg-panel="memory"><span>Memory</span></button>
+            <button type="button" class="stgNavBtn" data-stg-panel="connectors"><span>Connectors</span></button>
+            <button type="button" class="stgNavBtn" data-stg-panel="mcp"><span>MCP &amp; Tools</span></button>
+          </div>
+        </div>
+        <div class="stgNavFoot">
+          <button type="button" class="stgNavBtn stgNavLogout"><span>Log out</span></button>
+        </div>
+      </aside>
+      <div class="stgMain">
+        <div class="stgMainTop">
+          <button type="button" class="stgMobileBack" id="stgMobileBack" hidden aria-label="Back">←</button>
+          <h3 class="stgMainTitle" id="stgMainTitle">Account</h3>
+          <button type="button" class="stgClose" id="stgClose" aria-label="Close">×</button>
+        </div>
+        <div class="stgPanels">
+          <section class="stgPanel is-active" data-stg-panel="account">
+            <p class="stgPanelLead">Security, sessions, and account controls.</p>
+            <div class="stgAccountBlock">
+              <div class="stgRow stgRow--action">
+                <div class="stgRowBody">
+                  <div class="stgRowLabel">Log out of all devices</div>
+                  <div class="stgRowHint">Ends every active Solis session.</div>
+                </div>
+                <button type="button" class="stgAccountBtn">Log out</button>
+              </div>
+            </div>
+          </section>
+          <section class="stgPanel" data-stg-panel="profile">
+            <p class="stgPanelLead">Your public profile on Solis.</p>
+            <div class="stgProfileHero">
+              <div class="stgAvatarContainer">
+                <div class="stgAvatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              </div>
+              <div class="stgProfileMeta">
+                <div class="stgName">Alex Rivera</div>
+                <div class="stgEmail">alex@solis.ai</div>
+              </div>
+              <button type="button" class="stgEditHeaderBtn"><span>Edit</span></button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const wrap = document.getElementById('planSelectorWrap');
+    const btn = document.getElementById('planSelectorBtn');
+    const pop = document.getElementById('planSelectorPopover');
+    const modal = document.getElementById('stgModal');
+    const backdrop = document.getElementById('stgBackdrop');
+
+    function placePopover() {
+      const r = btn.getBoundingClientRect();
+      pop.style.top = (r.bottom + 10) + 'px';
+      pop.style.left = Math.max(12, r.right - 268) + 'px';
+      pop.style.width = '268px';
+    }
+
+    function setPlanOpen(on) {
+      wrap.classList.toggle('is-open', on);
+      btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (on) {
+        pop.hidden = false;
+        placePopover();
+        const count = document.getElementById('planPopoverCount');
+        if (count) {
+          const stat = count.closest('.plan-selector-popover-stat');
+          count.classList.remove('is-animating');
+          if (stat) stat.classList.remove('is-animating');
+          void count.offsetWidth;
+          count.classList.add('is-animating');
+          if (stat) stat.classList.add('is-animating');
+        }
+        requestAnimationFrame(() => pop.classList.add('is-open'));
+      } else {
+        pop.classList.remove('is-open');
+        setTimeout(() => { if (!wrap.classList.contains('is-open')) pop.hidden = true; }, 220);
+      }
+    }
+
+    function setStgOpen(on) {
+      backdrop.classList.toggle('preview-open', on);
+      backdrop.classList.toggle('open', on);
+      modal.classList.toggle('preview-open', on);
+      modal.classList.toggle('open', on);
+      if (on && document.body.classList.contains('is-mobile-preview')) {
+        modal.setAttribute('data-stg-view', 'home');
+      } else if (on) {
+        modal.removeAttribute('data-stg-view');
+      }
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setPlanOpen(!wrap.classList.contains('is-open'));
+    });
+    document.getElementById('btnTogglePlan').addEventListener('click', () => {
+      setPlanOpen(!wrap.classList.contains('is-open'));
+    });
+    document.getElementById('btnOpenStg').addEventListener('click', () => setStgOpen(true));
+    document.getElementById('btnCloseStg').addEventListener('click', () => setStgOpen(false));
+    document.getElementById('stgClose').addEventListener('click', () => setStgOpen(false));
+    backdrop.addEventListener('click', () => setStgOpen(false));
+    document.getElementById('btnMobile').addEventListener('click', (e) => {
+      document.body.classList.toggle('is-mobile-preview');
+      e.currentTarget.classList.toggle('is-on', document.body.classList.contains('is-mobile-preview'));
+      if (modal.classList.contains('preview-open')) {
+        modal.setAttribute('data-stg-view', document.body.classList.contains('is-mobile-preview') ? 'home' : '');
+        if (!document.body.classList.contains('is-mobile-preview')) modal.removeAttribute('data-stg-view');
+      }
+    });
+
+    document.getElementById('stgNavProfile').addEventListener('click', () => {
+      document.querySelectorAll('.stgNavBtn').forEach(b => b.classList.remove('is-active'));
+      document.getElementById('stgNavProfile').classList.add('is-active');
+      document.querySelectorAll('.stgPanel').forEach(p => p.classList.toggle('is-active', p.dataset.stgPanel === 'profile'));
+      document.getElementById('stgMainTitle').textContent = 'Profile';
+      if (document.body.classList.contains('is-mobile-preview')) modal.setAttribute('data-stg-view', 'panel');
+    });
+
+    document.querySelectorAll('.stgNavBtn[data-stg-panel]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const id = b.dataset.stgPanel;
+        document.getElementById('stgNavProfile').classList.toggle('is-active', id === 'profile');
+        document.querySelectorAll('.stgNavBtn').forEach(x => x.classList.toggle('is-active', x === b));
+        document.querySelectorAll('.stgPanel').forEach(p => p.classList.toggle('is-active', p.dataset.stgPanel === id || (id !== 'profile' && id !== 'account' ? false : p.dataset.stgPanel === id)));
+        document.querySelectorAll('.stgPanel').forEach(p => {
+          p.classList.toggle('is-active', p.dataset.stgPanel === (id === 'profile' ? 'profile' : 'account'));
+        });
+        document.getElementById('stgMainTitle').textContent = b.querySelector('span')?.textContent || 'Settings';
+        if (document.body.classList.contains('is-mobile-preview')) modal.setAttribute('data-stg-view', 'panel');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!wrap.contains(e.target)) setPlanOpen(false);
+    });
+    window.addEventListener('resize', () => { if (wrap.classList.contains('is-open')) placePopover(); });
+
+    setStgOpen(true);
+  </script>
+</body>
+</html>

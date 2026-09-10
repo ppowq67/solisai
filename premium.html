@@ -774,11 +774,12 @@
     .billing-slider-btn .save-chip {
       font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.02em;
-      padding: 2px 6px;
+      letter-spacing: 0.01em;
+      padding: 3px 7px;
       border-radius: 999px;
       background: rgba(255,106,0,0.16);
       color: var(--solis-deep);
+      white-space: nowrap;
     }
     .billing-slider-btn.is-active .save-chip {
       background: rgba(255,255,255,0.18);
@@ -934,7 +935,116 @@
       pointer-events: none;
     }
 
-    .plan-name { font-family: var(--font-display); font-size: 18px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 6px; color: var(--ink); }
+    .plan-name-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .plan-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin: 0;
+    }
+    .plan-cheap-badge {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: none;
+      background: transparent;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .plan-cheap-badge:focus-visible {
+      outline: 2px solid rgba(249, 115, 22, 0.45);
+      outline-offset: 3px;
+      border-radius: 999px;
+    }
+    .plan-cheap-badge .plan-cheap-inner {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 28px;
+      padding: 0 11px 0 9px;
+      border-radius: 999px;
+      font-family: var(--font-display);
+      letter-spacing: -0.02em;
+      color: #9a3412;
+      background:
+        linear-gradient(165deg, rgba(255, 247, 237, 0.98), rgba(255, 237, 213, 0.9));
+      border: 1px solid rgba(249, 115, 22, 0.26);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.85) inset,
+        0 4px 12px rgba(249, 115, 22, 0.1);
+    }
+    .plan-cheap-badge .plan-cheap-arrow {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+      display: block;
+      color: #c2410c;
+    }
+    .plan-cheap-badge .plan-cheap-pct {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: #c2410c;
+      display: inline-flex;
+      align-items: center;
+    }
+    .plan-cheap-badge .plan-cheap-txt {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      color: #9a3412;
+      display: inline-flex;
+      align-items: center;
+      opacity: 0.9;
+    }
+    .plan-cheap-badge[hidden] { display: none !important; }
+    .plan-cheap-badge.is-price-swap .plan-cheap-inner {
+      animation: planCheapPop 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .plan-cheap-badge.is-enter .plan-cheap-inner {
+      animation: planCheapEnter 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .plan-card.prime .plan-cheap-badge .plan-cheap-inner {
+      color: #9a3412;
+      background:
+        linear-gradient(165deg, rgba(255, 247, 237, 0.98), rgba(255, 237, 213, 0.95));
+      border: 1px solid rgba(249, 115, 22, 0.32);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9) inset,
+        0 4px 14px rgba(249, 115, 22, 0.16);
+    }
+    .plan-card.prime .plan-cheap-badge .plan-cheap-arrow,
+    .plan-card.prime .plan-cheap-badge .plan-cheap-pct {
+      color: #c2410c;
+    }
+    .plan-card.prime .plan-cheap-badge .plan-cheap-txt {
+      color: #9a3412;
+      opacity: 0.9;
+    }
+    @keyframes planCheapPop {
+      0% { opacity: 0.35; transform: translateY(6px) scale(0.96); filter: blur(2px); }
+      100% { opacity: 1; transform: none; filter: none; }
+    }
+    @keyframes planCheapEnter {
+      0% { opacity: 0; transform: translateX(8px) scale(0.92); filter: blur(3px); }
+      100% { opacity: 1; transform: none; filter: none; }
+    }
     .name-basic { color: var(--text-secondary); }
     .name-prime { background: var(--solis-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
     .name-elite { color: var(--ink); }
@@ -957,6 +1067,7 @@
       text-decoration-thickness: 1.5px;
       letter-spacing: -0.02em;
       flex-shrink: 0;
+      transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
     }
     .plan-price-now {
       display: flex;
@@ -967,6 +1078,115 @@
     .plan-price-currency { font-family: var(--font-numeric); font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 8px; margin-right: 1px; }
     .plan-price-int { font-family: var(--font-numeric); font-size: 56px; font-weight: 800; letter-spacing: -2.5px; color: var(--ink); line-height: 1; }
     .plan-price-dec { font-family: var(--font-numeric); font-size: 20px; font-weight: 700; color: var(--ink); padding-bottom: 7px; }
+    .plan-price-roll {
+      --price-roll-h: 56px;
+      --price-dec-h: 28px;
+      display: inline-flex;
+      align-items: flex-end;
+      overflow: hidden;
+      vertical-align: bottom;
+      flex-shrink: 0;
+    }
+    .plan-price-digits {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 0;
+      line-height: 1;
+    }
+    .plan-digit {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      font-family: var(--font-numeric);
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -2.5px;
+      overflow: hidden;
+    }
+    .plan-digit.is-int {
+      height: var(--price-roll-h);
+      font-size: 56px;
+    }
+    .plan-digit.is-dec {
+      height: var(--price-dec-h);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      padding-bottom: 7px;
+      box-sizing: content-box;
+    }
+    .plan-digit.is-dot {
+      height: var(--price-dec-h);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0;
+      padding-bottom: 7px;
+      box-sizing: content-box;
+      overflow: visible;
+    }
+    .plan-digit-view {
+      display: block;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+    }
+    .plan-digit-track {
+      display: flex;
+      flex-direction: column;
+      will-change: transform;
+      transition: transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .plan-digit-cell {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      flex-shrink: 0;
+      height: var(--price-roll-h);
+      min-width: 0.55ch;
+    }
+    .plan-digit.is-dec .plan-digit-cell {
+      height: var(--price-dec-h);
+      min-width: 0.62ch;
+    }
+    .plan-digit.is-entering {
+      animation: planDigitEnter 0.62s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .plan-digit.is-leaving {
+      animation: planDigitLeave 0.48s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+    @keyframes planDigitEnter {
+      from { opacity: 0; filter: blur(6px); transform: translateY(12px); max-width: 0; margin-inline: 0; }
+      to { opacity: 1; filter: blur(0); transform: translateY(0); max-width: 1.2ch; }
+    }
+    @keyframes planDigitLeave {
+      from { opacity: 1; filter: blur(0); transform: translateY(0); max-width: 1.2ch; }
+      to { opacity: 0; filter: blur(5px); transform: translateY(-10px); max-width: 0; }
+    }
+    .plan-price-was.is-price-swap {
+      animation: planWasSwap 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes planWasSwap {
+      0% { opacity: 0; transform: translateY(8px); filter: blur(5px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    @keyframes planNoteSwap {
+      0% { opacity: 0; filter: blur(4px); transform: translateY(4px); }
+      100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .plan-digit-track { transition: none !important; }
+      .plan-digit.is-entering,
+      .plan-digit.is-leaving,
+      .plan-price-was.is-price-swap,
+      .plan-price-billnote.is-price-swap {
+        animation: none !important;
+        filter: none !important;
+        transform: none !important;
+      }
+    }
     .plan-price-meta {
       display: flex;
       flex-direction: column;
@@ -986,6 +1206,10 @@
       font-weight: 800;
       letter-spacing: 0.04em;
       white-space: nowrap;
+      transition: opacity 0.3s ease;
+    }
+    .plan-price-save.is-price-swap {
+      animation: planNoteSwap 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
     .plan-price-period {
       font-size: 13px;
@@ -1000,7 +1224,17 @@
       margin-left: 6px;
       opacity: 0.7;
     }
-    .plan-price-billnote { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; min-height: 16px; font-weight: 500; }
+    .plan-price-billnote {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      min-height: 16px;
+      font-weight: 500;
+      transition: opacity 0.35s ease, filter 0.35s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .plan-price-billnote.is-price-swap {
+      animation: planNoteSwap 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
 
     .col-plan-price s { color: var(--text-faint); font-weight: 500; margin-right: 4px; }
 
@@ -1250,10 +1484,10 @@
     .compare-scroll-cue.is-dismissed { display: none !important; }
     .compare-scroll-cue-label {
       font-family: var(--font-display);
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      text-transform: none;
     }
     .compare-scroll-cue-icon {
       width: 40px;
@@ -2050,7 +2284,15 @@
       .pricing-grid { gap: 22px; padding-top: 18px; }
       .plan-card { padding: 24px 20px; border-radius: 20px; }
       .plan-name { font-size: 16px; }
+      .plan-cheap-badge .plan-cheap-inner { min-height: 26px; padding: 0 10px 0 8px; gap: 5px; }
+      .plan-cheap-badge .plan-cheap-pct { font-size: 12.5px; }
+      .plan-cheap-badge .plan-cheap-txt { font-size: 10.5px; }
+      .plan-cheap-badge .plan-cheap-arrow { width: 11px; height: 11px; }
       .plan-price-int { font-size: 48px; }
+      .plan-digit.is-int { font-size: 48px; }
+      .plan-digit.is-dec,
+      .plan-digit.is-dot { font-size: 18px; }
+      .plan-price-roll { --price-roll-h: 48px; --price-dec-h: 24px; }
       .plan-price-currency { font-size: 18px; }
       .plan-price-dec { font-size: 18px; }
       .plan-btn { padding: 12px 14px; font-size: 13px; }
@@ -2091,6 +2333,8 @@
     @media (max-width: 400px) {
       .hero-title { font-size: clamp(18px, 5.4vw, 24px); }
       .plan-price-int { font-size: 44px; }
+      .plan-digit.is-int { font-size: 44px; }
+      .plan-price-roll { --price-roll-h: 44px; --price-dec-h: 22px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2401,6 +2645,7 @@
         <div class="nav-menu">
           <a href="#features">Features</a>
           <a href="#pricing" class="is-active">Pricing</a>
+          <a href="/compare.html">Compare</a>
           <a href="#faq">FAQ</a>
         </div>
         <div class="nav-actions">
@@ -2460,6 +2705,7 @@
     <div class="nav-mobile" id="navMobile" role="menu" hidden>
       <a href="#features" role="menuitem">Features</a>
       <a href="#pricing" role="menuitem" class="is-active">Pricing</a>
+      <a href="/compare.html" role="menuitem">Compare</a>
       <a href="#faq" role="menuitem">FAQ</a>
       <div class="nav-mobile-divider"></div>
       <a href="/?login=1" role="menuitem" class="nav-mobile-signin" data-open-auth>Login</a>
@@ -2475,7 +2721,7 @@
             <span class="billing-slider-thumb" aria-hidden="true"></span>
             <button type="button" class="billing-slider-btn is-active" data-interval="month" aria-pressed="true">Monthly</button>
             <button type="button" class="billing-slider-btn" data-interval="year" aria-pressed="false">
-              Annual <span class="save-chip">−17%</span>
+              Annual <span class="save-chip">2 months free</span>
             </button>
           </div>
         </div>
@@ -2488,7 +2734,10 @@
     <section class="pricing-section" id="pricing">
       <div class="pricing-grid">
         <article class="plan-card" data-plan="basic">
-          <h3 class="plan-name name-basic">Basic</h3>
+          <div class="plan-name-row">
+            <h3 class="plan-name name-basic">Basic</h3>
+            <a class="plan-cheap-badge" data-plan-cheap href="/compare.html" hidden></a>
+          </div>
           <p class="plan-tagline">Ship your first clips fast. Ideal when you are testing Solis on real uploads.</p>
 
           <div class="plan-price">
@@ -2521,7 +2770,7 @@
               </span>
             </li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Up to <b>5</b> uploads/day</li>
-            <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><span class="plan-feat-text"><b>Any video length</b><button type="button" class="plan-tip" aria-label="About video length on Basic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="plan-tip-bubble">AI analyzes up to 30 minutes of each upload to find clips. Longer videos are supported; only that window is reviewed.</span></button></span></li>
+            <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><b>Any video length</b></li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><b>No watermark</b> on exports</li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><b>Unlimited</b> clips in library</li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Export videos in <b>1080p</b></li>
@@ -2530,7 +2779,10 @@
 
         <article class="plan-card prime" data-plan="prime">
           <div class="ribbon">Most popular</div>
-          <h3 class="plan-name name-prime">Prime</h3>
+          <div class="plan-name-row">
+            <h3 class="plan-name name-prime">Prime</h3>
+            <a class="plan-cheap-badge" data-plan-cheap href="/compare.html" hidden></a>
+          </div>
           <p class="plan-tagline">Built for daily posting. More uploads, more clips, sharper exports.</p>
 
           <div class="plan-price">
@@ -2563,7 +2815,7 @@
               </span>
             </li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Up to <b>10</b> uploads/day</li>
-            <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><span class="plan-feat-text"><b>Any video length</b><button type="button" class="plan-tip" aria-label="About video length on Prime"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="plan-tip-bubble">AI analyzes up to 120 minutes of each upload to find clips. Longer videos are supported; only that window is reviewed.</span></button></span></li>
+            <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><b>Any video length</b></li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><b>Max quality</b> mode</li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><b>Multi Task</b> · up to 10 Tasks in one go</li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Export videos in <b>1440p</b></li>
@@ -2571,7 +2823,10 @@
         </article>
 
         <article class="plan-card" data-plan="elite">
-          <h3 class="plan-name name-elite">Elite</h3>
+          <div class="plan-name-row">
+            <h3 class="plan-name name-elite">Elite</h3>
+            <a class="plan-cheap-badge" data-plan-cheap href="/compare.html" hidden></a>
+          </div>
           <p class="plan-tagline">Maximum throughput for teams and heavy creators who cannot wait.</p>
 
           <div class="plan-price">
@@ -2600,7 +2855,7 @@
               </span>
             </li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Up to <b>20</b> uploads/day</li>
-            <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><span class="plan-feat-text"><b>Any video length</b><button type="button" class="plan-tip" aria-label="About video length on Elite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="plan-tip-bubble">AI analyzes up to 240 minutes of each upload to find clips. Longer videos are supported; only that window is reviewed.</span></button></span></li>
+            <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><b>Any video length</b></li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><b>Max quality</b> mode</li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span><b>Multi Task</b> · up to 10 Tasks in one go</li>
             <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></span>Priority render queue</li>
@@ -2616,8 +2871,8 @@
       </div>
 
       <div class="compare-scroll-cue reveal">
-        <a href="#features" aria-label="See full feature comparison">
-          <span class="compare-scroll-cue-label">Full comparison</span>
+        <a href="/compare.html" aria-label="Compare Solis to other apps">
+          <span class="compare-scroll-cue-label">Wanna compare to other apps?</span>
           <span class="compare-scroll-cue-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 5v14"/>
@@ -2983,20 +3238,9 @@
         stickyCtaPrice.innerHTML = '<strong>$14.39</strong>/mo · first 2 months';
       }
       var compareCue = $('.compare-scroll-cue');
-      var compareCueKey = 'solis_compare_cue_seen';
-      function dismissCompareCue() {
-        if (!compareCue) return;
-        compareCue.classList.add('is-dismissed');
-        try { localStorage.setItem(compareCueKey, '1'); } catch (_) {}
-      }
       if (compareCue) {
-        try {
-          if (localStorage.getItem(compareCueKey) === '1') dismissCompareCue();
-        } catch (_) {}
-        var compareCueLink = $('a', compareCue);
-        if (compareCueLink) {
-          compareCueLink.addEventListener('click', dismissCompareCue);
-        }
+        try { localStorage.removeItem('solis_compare_cue_seen'); } catch (_) {}
+        compareCue.classList.remove('is-dismissed');
       }
       var comparisonData = [
         { group: 'Uploads', rows: [
@@ -3181,7 +3425,7 @@
   </script>
   <script src="/js/payment/payment-flow.js?v=17"></script>
   <script src="/js/s_new/qwqs.js?v=7"></script>
-  <script src="/js/payment/premium-page.js?v=10"></script>
+  <script src="/js/payment/premium-page.js?v=21"></script>
   <script>
     (function () {
       var params = new URLSearchParams(window.location.search);
