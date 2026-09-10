@@ -1516,6 +1516,31 @@
       .compare-scroll-cue-icon svg { animation: none; }
     }
 
+    .apps-compare-link {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+    }
+    .apps-compare-link a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-display);
+      font-size: 13.5px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--solis-deep);
+      text-decoration: none;
+      padding: 8px 4px;
+      transition: color 0.2s ease;
+    }
+    .apps-compare-link a:hover { color: var(--solis); }
+    .apps-compare-link a svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+
     .comparison-card {
       position: relative;
       border-radius: 22px;
@@ -2871,8 +2896,8 @@
       </div>
 
       <div class="compare-scroll-cue reveal">
-        <a href="/compare.html" aria-label="Compare Solis to other apps">
-          <span class="compare-scroll-cue-label">Wanna compare to other apps?</span>
+        <a href="#features" aria-label="Scroll to plan comparison chart">
+          <span class="compare-scroll-cue-label">Compare the market</span>
           <span class="compare-scroll-cue-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 5v14"/>
@@ -2940,6 +2965,16 @@
             </table>
           </div>
         </div>
+
+        <p class="apps-compare-link reveal">
+          <a href="/compare.html">
+            Wanna compare to other apps?
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14"/>
+              <path d="m13 6 6 6-6 6"/>
+            </svg>
+          </a>
+        </p>
       </div>
     </section>
 
