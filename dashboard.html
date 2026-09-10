@@ -10946,19 +10946,12 @@
     }
     function rememberRecentPreset(presetId){
         const id=String(presetId||'').toLowerCase();
-        if(!id || isMarketComingSoon(id)) return;
+        if(!id) return;
         const next=[id, ...readRecentPresets().filter(x=>x!==id)].slice(0, RECENT_PRESETS_MAX);
         try{ localStorage.setItem(RECENT_PRESETS_KEY, JSON.stringify(next)); }catch(_){}
     }
-    function isMarketComingSoon(presetId){
-        const id=String(presetId||'').toLowerCase();
-        if(!id) return false;
-        if(captionAnims().some(a=>String(a.id).toLowerCase()===id)) return false;
-        const live=window.SolisStylePack?.get?.()?.market_live;
-        if(Array.isArray(live) && live.map(x=>String(x).toLowerCase()).includes(id)) return false;
-        if(['hormozi-2','hormozi-3','hormozi-4'].includes(id)) return false;
-        return captionMoreAnims().some(a=>String(a.id).toLowerCase()===id)
-            || !!(window.SolisStylePack?.preset?.(id)?.forge && id!=='spotlight' && id!=='blur');
+    function isMarketComingSoon(_presetId){
+        return false;
     }
     function captionPresets(){
         try{ return window.SolisStylePack?.presets?.()||{}; }catch(_){ return {}; }
@@ -11014,9 +11007,6 @@
             || captionPresets()[String(presetId||'').toLowerCase()];
         if(!pack) return null;
         activeCaptionPresetId=String(presetId||pack.anim||'').toLowerCase();
-        if(isMarketComingSoon(activeCaptionPresetId)){
-            return null;
-        }
         rememberRecentPreset(activeCaptionPresetId);
         const engine=previewEngineForPreset(activeCaptionPresetId, pack, null);
         const host=block||active||animPinnedBlock;
@@ -14635,161 +14625,22 @@
         captionAnims().forEach(an=>grid.appendChild(makeCard(an)));
         ddAnim.appendChild(grid);
 
-        const moreBtn=document.createElement('button');
-        moreBtn.type='button';
-        moreBtn.className='sub-want-more';
-        moreBtn.id='subWantMoreSubs';
-        moreBtn.innerHTML=`<span>Subtitle market</span><span class="sub-want-more-chev" aria-hidden="true">›</span>`;
-        if(ddAnimMore?.classList.contains('open')) moreBtn.classList.add('is-on');
-        moreBtn.addEventListener('click',(e)=>{
-            e.preventDefault();
-            e.stopPropagation();
-            toggleAnimMorePanel();
-        });
-        ddAnim.appendChild(moreBtn);
-
-        if(ddAnimMore?.classList.contains('open')){
-            buildAnimMoreDD({ cardRuns, makeCard });
-        }
-
         const tick=()=>{ cardRuns.forEach(fn=>{ try{fn();}catch(_){} }); };
         setTimeout(()=>{ tick(); refitOpenAnimCards(); },40);
         setTimeout(refitOpenAnimCards, 120);
         animIvs.push(setInterval(tick,720));
     }
 
-    function makeComingSoonCard(an){
-        const presetId=String(an.id||'').toLowerCase();
-        const pack=captionPresets()[presetId]||window.SolisStylePack?.preset?.(presetId)||null;
-        const engineId=previewEngineForPreset(presetId, pack, an);
-        const card=document.createElement('div');
-        card.className='sub-acard is-soon';
-        card.dataset.aid=presetId;
-        card.title='Coming soon to the market';
-        const badge=document.createElement('span');
-        badge.className='sub-soon-badge';
-        badge.textContent='Soon';
-        const prev=document.createElement('div'); prev.className='sub-aprev';
-        const nm=document.createElement('div'); nm.className='sub-aname';
-        nm.textContent=(pack&&pack.name)||an.name;
-        card.appendChild(badge);
-        card.appendChild(prev);
-        card.appendChild(nm);
-        const cardFont=pack?.font||'Montserrat';
-        const cardWpc=pack?.words_per_chunk||(an.fixedWpc||ANIM_SAMPLE_WPC);
-        const sampleWords=subtitleLoopWords().slice(0, Math.max(4, cardWpc*2));
-        prev.style.fontFamily=fontStack(cardFont);
-        prev.style.fontWeight=fontWeightFor(cardFont);
-        try{
-            const runner=createAnimPreviewLoop(prev, { ...an, id: engineId, name: an.name }, {
-                live:false, card:true, words: sampleWords, wordsPerChunk: cardWpc,
-            });
-            window._animCardRunners.push(runner);
-        }catch(_){}
-        card.addEventListener('click',(e)=>{
-            e.preventDefault();
-            e.stopPropagation();
-        });
-        return card;
+    function makeComingSoonCard(_an){
+        return document.createElement('div');
     }
 
-    function buildAnimMoreDD(opts){
-        if(!ddAnimMore) return;
-        const makeCard=opts?.makeCard;
-        const moreList=captionMoreAnims();
-        ddAnimMore.innerHTML='';
-
-        const head=document.createElement('div');
-        head.className='sub-preset-head';
-        head.innerHTML=`<div class="sub-preset-title">Subtitle market</div>`;
-        ddAnimMore.appendChild(head);
-
-        const soon=document.createElement('div');
-        soon.className='sub-market-soon';
-        soon.innerHTML=`
-            <div class="sub-market-soon-kicker">Market</div>
-            <div class="sub-market-soon-title">More styles coming soon</div>
-            <p class="sub-market-soon-copy">Hormozi 2 / 3 / 4 are live in Presets. The rest of the market stays locked for now.</p>
-        `;
-        ddAnimMore.appendChild(soon);
-
-        const recentSec=document.createElement('div');
-        recentSec.className='sub-anim-sec';
-        const recentLab=document.createElement('div');
-        recentLab.className='sub-anim-sec-label';
-        recentLab.textContent='Recently used';
-        recentSec.appendChild(recentLab);
-        const recentIds=readRecentPresets().filter(id=>!isMarketComingSoon(id));
-        const recentGrid=document.createElement('div');
-        recentGrid.className='sub-anim-grid';
-        if(recentIds.length && typeof makeCard==='function'){
-            recentIds.forEach((id)=>{
-                const an=captionAnims().find(a=>String(a.id).toLowerCase()===id)
-                    || { id, name: (captionPresets()[id]?.name||id), anim: captionPresets()[id]?.anim||id };
-                recentGrid.appendChild(makeCard(an));
-            });
-        }else{
-            const empty=document.createElement('div');
-            empty.className='sub-market-empty-recent';
-            empty.textContent='Pick a preset — it’ll show up here.';
-            recentSec.appendChild(empty);
-        }
-        if(recentIds.length) recentSec.appendChild(recentGrid);
-        ddAnimMore.appendChild(recentSec);
-
-        if(moreList.length){
-            const groups=document.createElement('div');
-            groups.className='sub-anim-more-groups';
-            const byGroup={};
-            moreList.forEach((an)=>{
-                const g=String(an.group||an.source||'extra');
-                if(!byGroup[g]) byGroup[g]=[];
-                byGroup[g].push(an);
-            });
-            const order=['submagic','opusclip','vizard','extra'];
-            const keys=[...order.filter(k=>byGroup[k]), ...Object.keys(byGroup).filter(k=>!order.includes(k))];
-            keys.forEach((g)=>{
-                const sec=document.createElement('div');
-                sec.className='sub-anim-sec';
-                const lab=document.createElement('div');
-                lab.className='sub-anim-sec-label';
-                lab.textContent=`${captionSourceLabel(g)} · Coming soon`;
-                sec.appendChild(lab);
-                const grid=document.createElement('div');
-                grid.className='sub-anim-grid';
-                byGroup[g].forEach((an)=>grid.appendChild(makeComingSoonCard(an)));
-                sec.appendChild(grid);
-                groups.appendChild(sec);
-            });
-            ddAnimMore.appendChild(groups);
-        }
-
-        if(ddAnimMore.classList.contains('open')){
-            setTimeout(()=>{
-                try{
-                    ddAnimMore.querySelectorAll('.sub-aprev').forEach((el)=>{
-                        try{ fitCardSample(el); }catch(_){}
-                    });
-                }catch(_){}
-            },40);
-        }
+    function buildAnimMoreDD(_opts){
+        if(ddAnimMore) ddAnimMore.innerHTML='';
     }
 
     function toggleAnimMorePanel(){
-        if(!ddAnim || !ddAnimMore) return;
-        if(ddAnimMore.classList.contains('open')){
-            closeAnimMorePanel();
-            try{ placeOpenDd(); }catch(_){}
-            return;
-        }
-        ddAnimMore.classList.add('open','is-swap-in');
-        buildAnimDD({ fetch:false });
-        document.getElementById('subWantMoreSubs')?.classList.add('is-on');
-        requestAnimationFrame(()=>{
-            placeOpenDd();
-            refitOpenAnimCards();
-        });
-        setTimeout(()=>ddAnimMore.classList.remove('is-swap-in'),180);
+        closeAnimMorePanel();
     }
 
     function closeAnimMorePanel(){
