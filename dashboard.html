@@ -10945,8 +10945,11 @@
         const id=String(presetId||'').toLowerCase();
         if(!id) return false;
         if(captionAnims().some(a=>String(a.id).toLowerCase()===id)) return false;
+        const live=window.SolisStylePack?.get?.()?.market_live;
+        if(Array.isArray(live) && live.map(x=>String(x).toLowerCase()).includes(id)) return false;
+        if(['hormozi-2','hormozi-3','hormozi-4'].includes(id)) return false;
         return captionMoreAnims().some(a=>String(a.id).toLowerCase()===id)
-            || !!(window.SolisStylePack?.preset?.(id)?.forge && id!=='spotlight');
+            || !!(window.SolisStylePack?.preset?.(id)?.forge && id!=='spotlight' && id!=='blur');
     }
     function captionPresets(){
         try{ return window.SolisStylePack?.presets?.()||{}; }catch(_){ return {}; }
@@ -14696,8 +14699,8 @@
         soon.className='sub-market-soon';
         soon.innerHTML=`
             <div class="sub-market-soon-kicker">Market</div>
-            <div class="sub-market-soon-title">Coming soon to the market</div>
-            <p class="sub-market-soon-copy">Hormozi, Marker Swipe, Hook, and more styles are on the way. Your core presets stay available.</p>
+            <div class="sub-market-soon-title">More styles coming soon</div>
+            <p class="sub-market-soon-copy">Hormozi 2 / 3 / 4 are live in Presets. The rest of the market stays locked for now.</p>
         `;
         ddAnimMore.appendChild(soon);
 
